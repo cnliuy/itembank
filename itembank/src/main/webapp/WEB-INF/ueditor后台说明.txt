@@ -1,0 +1,23 @@
+出于安全考虑，ueditor的后台配置文件放在了WEB-INF下，
+后台文件是否起效用可以查询 
+	http://localhost:8080/itembank/ueditor/dispatch?action=config 
+	
+	/------------------------------------------------------------------------/
+	即 http://fex.baidu.com/ueditor/#server-jsp 中所述的安全验证方式：
+	--验证安装
+	---在浏览器地址栏中输入如下URL：
+	---- http://localhost:8080/ueditor1_4_3-utf8-jsp/jsp/controller.jsp?action=config 
+	---- 出现类似下图所示内容，则配置成功，否则，即为失败。
+	/------------------------------------------------------------------------/
+	
+	后台配置文件(config.json)读取路径的修改在 ConfigManager 中的getConfigPath()函数中。如下：
+	
+	private String getConfigPath () {
+        //I modify this, because it is not suit for our porject.
+        return this.rootPath +  File.separator + "WEB-INF" + File.separator + "classes" +  File.separator + ConfigManager.configFileName;
+    }
+    	
+	示例参见：
+    ---- http://www.yihaomen.com/article/java/583.htm
+    ------	   百度ueditor与spring mvc结合应做的修改. (5*参考)
+	
