@@ -20,6 +20,10 @@
         }
     </style>
 	
+	<!-- my add jquery -->
+	<script src="${ctx}/static/jquery-validation/1.11.1/jquery.validate.min.js" type="text/javascript"></script>
+	<script src="${ctx}/static/jquery-validation/1.11.1/messages_bs_zh.js" type="text/javascript"></script>
+	
 </head>
 
 <body>
@@ -94,9 +98,35 @@
         var arr = [];
         arr.push("使用editor.getContent()方法可以获得编辑器的内容");
         arr.push("内容为：");
-        arr.push(UE.getEditor('editor').getContent());
+        var strurcontent = UE.getEditor('editor').getContent();
+        arr.push(strurcontent);
         alert(arr.join("\n"));
+        
+        //liuy add
+        var xhr = new XMLHttpRequest();  
+		var formData = new FormData();  
+		var urlhere = "${ctx}/ueditor/gogetuecontent";
+		formData.append("uecontent", strurcontent);  
+		//xhr.open('post', Core.host + '/test/test?id=' + id, true);
+		xhr.open('post', urlhere, true); 
+		alert(urlhere);
+		alert(formData);
+		xhr.send(formData);         
+
+        //request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');        
+ 
     }
+    
+    function changeContent(form) {
+    	alert("here1111");     
+        var strurcontent = UE.getEditor('editor').getContent();
+        alert(strurcontent); 
+        //form.uepostcontent.value= strurcontent ;   
+        document.getElementById("uepostcontent").value=strurcontent;
+		form.submit();
+    }
+ 
+    
     function getPlainTxt() {
         var arr = [];
         arr.push("使用editor.getPlainTxt()方法可以获得编辑器的带格式的纯文本内容");
@@ -177,7 +207,10 @@
         alert("已清空草稿箱")
     }
 </script>
-	
+	<form action="${ctx}/ueditor/gogetuecontent2"	method="post"  > 
+		<input type="hidden" id="uepostcontent"  name="uepostcontent" value=""/>
+		<input id="submit_btn" class="btn btn-primary" type="submit" value="提交" onclick="changeContent(this.form)"/>
+	</form>
 	
 	
 </body>
