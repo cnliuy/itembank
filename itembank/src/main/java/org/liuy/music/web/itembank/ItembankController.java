@@ -132,6 +132,24 @@ public class ItembankController {
 	
 
 	
+	@RequestMapping(value = "/showdetail/{id}" , method = RequestMethod.GET) 
+	public String showdetail(@PathVariable("id") Long itembankid, Model model) {
+		Itembank itembank =  null ;
+		itembank = itembankService.getItembank(itembankid)  ; 
+		if(itembank == null ){
+			model.addAttribute("message", "空");
+		}else{
+			Long useId = getCurrentUserId();
+			Long itembankuseId = itembank.getUserId() ;
+			if(useId == itembankuseId){   //比对所拥有的用户是否 为现用户
+				model.addAttribute("itembank", itembank);
+			}else{
+				model.addAttribute("message", "无权查看此题目");
+			}
+		}
+		
+	    return "itembank/itembankDetail";  
+	}
 
 //	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)
 //	public String updateForm(@PathVariable("id") Long id, Model model) {

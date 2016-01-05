@@ -39,5 +39,6 @@
 	<div><a class="btn" href="${ctx}/task/create">创建任务</a></div>
 	
 	<div><a   href="${ctx}/itembank/tocreateitembankpage">创建题</a></div>
+	<div><a class="btn" href="${ctx}/itembank">题目列表</a></div>
 </body>
 </html>

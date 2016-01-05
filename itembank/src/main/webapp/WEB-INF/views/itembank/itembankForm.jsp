@@ -13,13 +13,13 @@
     <script type="text/javascript" charset="utf-8" src="${ctx}/ueditor/lang/zh-cn/zh-cn.js"></script>
     <script type="text/javascript" charset="utf-8" src="${ctx}/ueditor/ueditor.parse.min.js"> </script>
 
-
+	<!-- 
     <style type="text/css">
         div{
             width:100%;
         }
     </style>
-	
+	 -->
 	<!-- my add jquery -->
 	<script src="${ctx}/static/jquery-validation/1.11.1/jquery.validate.min.js" type="text/javascript"></script>
 	<script src="${ctx}/static/jquery-validation/1.11.1/messages_bs_zh.js" type="text/javascript"></script>
@@ -29,7 +29,7 @@
 <body>
 <div>
     <!-- <h1>完整demo</h1> -->
-    <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
+    <script id="editor" type="text/plain" style="width:1024px;height:180px;"></script>
 </div>
 
 

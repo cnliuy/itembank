@@ -21,9 +21,10 @@
 		<tbody>
 		<c:forEach items="${itembanks.content}" var="itembank">
 			<tr>
-				<td><a href="${ctx}/task/update/${itembank.id}">${itembank.title}</a></td>
-				<td><a href="${ctx}/task/update/${itembank.id}">${itembank.content}</a></td>
-				<td><a href="${ctx}/task/delete/${itembank.id}">删除</a></td>
+				<td><a href="${ctx}/itembank/showdetail/${itembank.id}">${itembank.id}</a></td>
+				<td>${itembank.content}</td>
+				<td><a href="${ctx}/itembank/delete/${itembank.id}">删除</a></td>
+				<td><a href="${ctx}/itembank/update/${itembank.id}">更新</a></td>
 			</tr>
 		</c:forEach>
 		</tbody>
@@ -33,6 +34,7 @@
 	<div><a class="btn" href="${ctx}/task/gocreate">创建任务2</a></div><br>
 	<div><a class="btn" href="${ctx}/task/create">创建任务</a></div>
 	
-	<div><a   href="${ctx}/itembank/tocreateitembankpage">创建题</a></div>
+	<div><a href="${ctx}/itembank/tocreateitembankpage">创建题</a></div>
+	<div><a class="btn" href="${ctx}/itembank">题目列表</a></div>
 </body>
 </html>
