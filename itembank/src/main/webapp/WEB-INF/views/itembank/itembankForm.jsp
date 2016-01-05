@@ -198,6 +198,8 @@
         alert("已清空草稿箱")
     }
 </script>
+
+
 	<form action="${ctx}/ueditor/gogetuecontent2"	method="post"  > 
 		<input type="hidden" id="uepostcontent"  name="uepostcontent" value=""/>
 		<input id="submit_btn" class="btn btn-primary" type="submit" value="提交" onclick="changeContent(this.form)"/>
