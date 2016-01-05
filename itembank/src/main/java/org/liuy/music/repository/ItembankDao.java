@@ -9,7 +9,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.liuy.music.entity.Itembank;
 import org.liuy.music.entity.Task;
 
-public interface ItembankDao extends PagingAndSortingRepository<Itembank, Long>, JpaSpecificationExecutor<Itembank> {
+public interface ItembankDao extends PagingAndSortingRepository<Itembank, Long>  {
 
 	Itembank findById(Long id);
 

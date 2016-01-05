@@ -1,8 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2005, 2014 springside.github.io
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- *******************************************************************************/
 package org.liuy.music.entity;
 
 import javax.persistence.Entity;
@@ -21,79 +16,104 @@ public class Itembank extends IdEntity {
 	private String title;
 	private String content;
 	private String description;
-	private Integer order;
+	private String itemclassify;
+	private Integer itemorder;
 	private Integer weighting ;
-	private Integer scope1 ;
-	private Integer scope2 ;
-	private Integer scope3 ;
+	private Integer itemscope1 ;
+	private Integer itemscope2 ;
+	private Integer itemscope3 ;
 	
 
  
-	@NotBlank
+	
 	public String getTitle() {
 		return title;
 	}
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-	public String getDescription() {
-		return description;
-	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	
 	public String getContent() {
 		return content;
 	}
-
 	public void setContent(String content) {
 		this.content = content;
 	}
 
-	public Integer getOrder() {
-		return order;
+
+
+
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public void setOrder(Integer order) {
-		this.order = order;
+
+
+
+	public String getItemclassify() {
+		return itemclassify;
 	}
+
+	public void setItemclassify(String itemclassify) {
+		this.itemclassify = itemclassify;
+	}
+
+
+
+
+	public Integer getItemorder() {
+		return itemorder;
+	}
+	public void setItemorder(Integer itemorder) {
+		this.itemorder = itemorder;
+	}
+
+
+
 
 	public Integer getWeighting() {
 		return weighting;
 	}
-
 	public void setWeighting(Integer weighting) {
 		this.weighting = weighting;
 	}
 
-	public Integer getScope1() {
-		return scope1;
+
+
+
+	public Integer getItemscope1() {
+		return itemscope1;
+	}
+	public void setItemscope1(Integer itemscope1) {
+		this.itemscope1 = itemscope1;
 	}
 
-	public void setScope1(Integer scope1) {
-		this.scope1 = scope1;
+
+
+
+	public Integer getItemscope2() {
+		return itemscope2;
+	}
+	public void setItemscope2(Integer itemscope2) {
+		this.itemscope2 = itemscope2;
 	}
 
-	public Integer getScope2() {
-		return scope2;
+
+
+
+	public Integer getItemscope3() {
+		return itemscope3;
+	}
+	public void setItemscope3(Integer itemscope3) {
+		this.itemscope3 = itemscope3;
 	}
 
-	public void setScope2(Integer scope2) {
-		this.scope2 = scope2;
-	}
 
-	public Integer getScope3() {
-		return scope3;
-	}
 
-	public void setScope3(Integer scope3) {
-		this.scope3 = scope3;
-	}
 
 	@Override
 	public String toString() {
