@@ -18,52 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.baidu.ueditor.ActionEnter;
 
 /**
- * Ueditor 的 Restful API的Controller.
- * @deprecated  废弃的Ueditor ，可做原始示例参考
+ * Itembank 的 Restful API的Controller.
+ * 
  * @author liuy
  */
-@Deprecated
-//--@RestController
-//--@RequestMapping(value = "/ueditor")
-public class UeditorRestController {
-	
-	//http://localhost:8080/itembank/static/ueditorjs/gotaskcontroll
-//	@RequestMapping(value = "gotaskcontroll" )
-//	public String gotaskcontroller(ServletRequest req ,ServletResponse resp) {
-//		HttpServletRequest request = (HttpServletRequest) req;
-//		HttpServletResponse response = (HttpServletResponse) resp;
-//		System.out.println("----------- gotaskcontroller------------"+new Date());
-//		//model.addAttribute("task", new Task());
-//		//model.addAttribute("action", "gocreate");
-//		//return "task/gocreate";
-//		try {
-//			request.setCharacterEncoding( "utf-8" );
-//		} catch (UnsupportedEncodingException e) {
-//			e.printStackTrace();
-//		}
-//		response.setHeader("Content-Type" , "text/html");		
-//		//String rootPath = application.getRealPath( "/" );
-//		//String herePath = request.getSession().getServletContext().getRealPath("/");
-//		String herePath = UrlUtil.getClassFilePath(UeditorRestController.class);
-//		herePath=herePath.replace("UeditorRestController.class", "");
-//		System.out.println(herePath);
-//		String jsonfile = "";
-//		try {
-//			jsonfile = new ActionEnter( request, herePath ).exec();
-//			System.out.println(jsonfile);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		//	out.write( new ActionEnter( request, rootPath ).exec() );
-//		
-//	    //return this.parentPath + File.separator + ConfigManager.configFileName;
-//        //I modify this, because it is not suit for our porject.
-//
-//		return jsonfile;
-//	}
-	
+@RestController
+@RequestMapping(value = "/ueditor")
+public class ItembankRestController {
+		
 	/**
 	 * http://localhost:8080/itembank/ueditor/dispatch
 	 * 
