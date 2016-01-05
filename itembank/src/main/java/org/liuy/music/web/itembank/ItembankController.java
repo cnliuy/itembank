@@ -51,10 +51,10 @@ public class ItembankController {
 			ServletRequest request) {
 		//Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 		Long userId = getCurrentUserId();
-		Page<Itembank> tasks = itembankService.getUserItembank(userId, pageNumber, pageSize, sortType);
-		model.addAttribute("tasks", tasks);
+		Page<Itembank> itembanks = itembankService.getUserItembankList(userId, pageNumber, pageSize, sortType);
+		model.addAttribute("itembanks", itembanks);
 		model.addAttribute("sortType", sortType);
-		model.addAttribute("sortTypes", sortTypes);
+		//model.addAttribute("sortTypes", sortTypes);
 		// 将搜索条件编码成字符串，用于排序，分页的URL
 		//model.addAttribute("searchParams", Servlets.encodeParameterStringWithPrefix(searchParams, "search_"));
 
@@ -98,14 +98,22 @@ public class ItembankController {
 	 * 
 	 * */
 	@RequestMapping("/postuecontent")
-    public void postuecontent(HttpServletRequest request,  HttpServletResponse response) {
-		System.out.println("in  itembankController() postuecontent");
-		String uecontent = "";
-		String uecontent2 = "";
-		uecontent =	(String) request.getAttribute("uepostcontent"); 
-		System.out.println("uecontent:"+uecontent);
-		uecontent2 = request.getParameter("uepostcontent"); 
-		System.out.println("uecontent2:"+uecontent2);		
+    public String postuecontent(HttpServletRequest request,  HttpServletResponse response) {
+		//System.out.println("in  itembankController() postuecontent");
+		//String uecontent =	(String) request.getAttribute("uepostcontent");   
+		//System.out.println("uecontent:"+uecontent); //空值
+		String uecontent = request.getParameter("uepostcontent");
+		//System.out.println("uecontent2:"+uecontent);		
+		String itemclassify = request.getParameter("itemclassify");
+		String description = request.getParameter("description");
+		Long userId = getCurrentUserId();
+		Itembank  itembank = new Itembank();
+		itembank.setContent(uecontent);
+		itembank.setDescription(description);
+		itembank.setTitle("title");
+		itembank.setUserId(userId);
+		itembankService.saveItembank(itembank);
+		return "redirect:/itembank/";
 	}
 	
 	

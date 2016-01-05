@@ -51,12 +51,14 @@ public class ItembankService {
 	
 	//getUserItembank(userId, searchParams, pageNumber, pageSize, sortType);
 	//public Page<Itembank> getUserItembank(Long userId, Map<String, Object> searchParams, int pageNumber, int pageSize, String sortType) {
-	public Page<Itembank> getUserItembank(Long userId,  int pageNumber, int pageSize, String sortType) {
+	public Page<Itembank> getUserItembankList(Long userId, 
+			int pageNumber, int pageSize, String sortType) {
 	 			
 		PageRequest pageRequest = buildPageRequest(pageNumber, pageSize, sortType);
- 		//Specification<Itembank> spec = buildSpecification(Id, searchParams);
+ 		//Specification<Itembank> spec = buildSpecification(userId , searchParams);
  		//return itembankDao.findAll(spec, pageRequest);
- 		return itembankDao.findAll(pageRequest);
+		
+ 		return itembankDao.findByUserIdOrderByIdDesc(userId, pageRequest);
 	}
 
 	/**
@@ -77,12 +79,12 @@ public class ItembankService {
 	/**
 	 * 创建动态查询条件组合.
 	 */
-//	private Specification<Itembank> buildSpecification(Long userId, Map<String, Object> searchParams) {
-//		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-//		filters.put("user.id", new SearchFilter("user.id", Operator.EQ, userId));
-//		Specification<Task> spec = DynamicSpecifications.bySearchFilter(filters.values(), Task.class);
-//		return spec;
-//	}
+	private Specification<Itembank> buildSpecification(Long userId, Map<String, Object> searchParams) {
+		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
+		filters.put("userId", new SearchFilter("userId", Operator.EQ, userId));
+		Specification<Itembank> spec = DynamicSpecifications.bySearchFilter(filters.values(), Itembank.class);
+		return spec;
+	}
 
 	public ItembankDao getItembankDao() {
 		return itembankDao;

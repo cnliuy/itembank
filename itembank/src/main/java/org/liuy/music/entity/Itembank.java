@@ -23,7 +23,7 @@ public class Itembank extends IdEntity {
 	private Integer itemscope2 ;
 	private Integer itemscope3 ;
 	
-
+	private Long  userId;
  
 	
 	public String getTitle() {
@@ -111,10 +111,12 @@ public class Itembank extends IdEntity {
 	public void setItemscope3(Integer itemscope3) {
 		this.itemscope3 = itemscope3;
 	}
-
-
-
-
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);

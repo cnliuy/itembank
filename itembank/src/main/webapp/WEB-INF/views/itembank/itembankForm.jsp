@@ -28,45 +28,10 @@
 
 <body>
 <div>
-    <h1>完整demo</h1>
+    <!-- <h1>完整demo</h1> -->
     <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
 </div>
-<div id="btns">
-    <div>
-        <button onclick="getAllHtml()">获得整个html的内容</button>
-        <button onclick="getContent()">获得内容</button>
-        <button onclick="setContent()">写入内容</button>
-        <button onclick="setContent(true)">追加内容</button>
-        <button onclick="getContentTxt()">获得纯文本</button>
-        <button onclick="getPlainTxt()">获得带格式的纯文本</button>
-        <button onclick="hasContent()">判断是否有内容</button>
-        <button onclick="setFocus()">使编辑器获得焦点</button>
-        <button onmousedown="isFocus(event)">编辑器是否获得焦点</button>
-        <button onmousedown="setblur(event)" >编辑器失去焦点</button>
 
-    </div>
-    <div>
-        <button onclick="getText()">获得当前选中的文本</button>
-        <button onclick="insertHtml()">插入给定的内容</button>
-        <button id="enable" onclick="setEnabled()">可以编辑</button>
-        <button onclick="setDisabled()">不可编辑</button>
-        <button onclick=" UE.getEditor('editor').setHide()">隐藏编辑器</button>
-        <button onclick=" UE.getEditor('editor').setShow()">显示编辑器</button>
-        <button onclick=" UE.getEditor('editor').setHeight(300)">设置高度为300默认关闭了自动长高</button>
-    </div>
-
-    <div>
-        <button onclick="getLocalData()" >获取草稿箱内容</button>
-        <button onclick="clearLocalData()" >清空草稿箱</button>
-    </div>
-
-</div>
-<div>
-    <button onclick="createEditor()">
-    创建编辑器</button>
-    <button onclick="deleteEditor()">
-    删除编辑器</button>
-</div>
 
 <script type="text/javascript">
     //实例化编辑器
@@ -80,56 +45,54 @@
         UE.getEditor('editor').blur();
         UE.dom.domUtils.preventDefault(e)
     }
-    function insertHtml() {
-        var value = prompt('插入html代码', '');
-        UE.getEditor('editor').execCommand('insertHtml', value)
-    }
-    function createEditor() {
-        enableBtn();
-        UE.getEditor('editor');
-    }
-    function getAllHtml() {
-        alert(UE.getEditor('editor').getAllHtml())
-    }
-    function getContent() {
-        var arr = [];
-        arr.push("使用editor.getContent()方法可以获得编辑器的内容");
-        arr.push("内容为：");
-        var strurcontent = UE.getEditor('editor').getContent();
-        arr.push(strurcontent);
-        alert(arr.join("\n"));
-        
-        //liuy add
-        var xhr = new XMLHttpRequest();  
-		var formData = new FormData();  
-		var urlhere = "${ctx}/ueditor/gogetuecontent";
-		formData.append("uecontent", strurcontent);  
-		//xhr.open('post', Core.host + '/test/test?id=' + id, true);
-		xhr.open('post', urlhere, true); 
-		alert(urlhere);
-		alert(formData);
-		xhr.send(formData);         
-        //request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');        
- 
-    }
+    //function insertHtml() {
+    //    var value = prompt('插入html代码', '');
+    //    UE.getEditor('editor').execCommand('insertHtml', value)
+    //}
+    //function createEditor() {
+    //    enableBtn();
+    //    UE.getEditor('editor');
+    //}
+    //function getAllHtml() {
+    //    alert(UE.getEditor('editor').getAllHtml())
+    //}
+    //function getContent() {
+    //    var arr = [];
+    //    arr.push("使用editor.getContent()方法可以获得编辑器的内容");
+    //    arr.push("内容为：");
+    //    var strurcontent = UE.getEditor('editor').getContent();
+    //    arr.push(strurcontent);
+    //    alert(arr.join("\n"));        
+    //    //liuy add
+    //    var xhr = new XMLHttpRequest();  
+	//	var formData = new FormData();  
+	//	var urlhere = "${ctx}/itembank/postuecontent";
+	//	formData.append("uecontent", strurcontent);  
+	//	//xhr.open('post', Core.host + '/test/test?id=' + id, true);
+	//	xhr.open('post', urlhere, true); 
+	//	alert(urlhere);
+	//	alert(formData);
+	//	xhr.send(formData);         
+    //    //request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');  
+    //}
     
-    function changeContent(form) {
-    	alert("here1111");     
+    function gogetueditorContent(form) {
+    	//alert("here1111");     
         var strurcontent = UE.getEditor('editor').getContent();
-        alert(strurcontent); 
+        //alert(strurcontent); 
         //form.uepostcontent.value= strurcontent ;   
         document.getElementById("uepostcontent").value=strurcontent;
 		form.submit();
     }
  
     
-    function getPlainTxt() {
-        var arr = [];
-        arr.push("使用editor.getPlainTxt()方法可以获得编辑器的带格式的纯文本内容");
-        arr.push("内容为：");
-        arr.push(UE.getEditor('editor').getPlainTxt());
-        alert(arr.join('\n'))
-    }
+    //function getPlainTxt() {
+    //    var arr = [];
+    //    arr.push("使用editor.getPlainTxt()方法可以获得编辑器的带格式的纯文本内容");
+    //    arr.push("内容为：");
+    //    arr.push(UE.getEditor('editor').getPlainTxt());
+    //    alert(arr.join('\n'))
+    //}
     function setContent(isAppendTo) {
         var arr = [];
         arr.push("使用editor.setContent('欢迎使用ueditor')方法可以设置编辑器的内容");
@@ -200,9 +163,27 @@
 </script>
 
 
-	<form action="${ctx}/ueditor/gogetuecontent2"	method="post"  > 
+	<form action="${ctx}/itembank/postuecontent"	method="post"  > 
 		<input type="hidden" id="uepostcontent"  name="uepostcontent" value=""/>
-		<input id="submit_btn" class="btn btn-primary" type="submit" value="提交" onclick="changeContent(this.form)"/>
+		<br></br>
+		<div class="control-group">
+				<label for="task_title" class="control-label">题目分类:</label>
+				<div class="controls">
+					<input type="text" id="itemclassify" name="itemclassify"   class="input-large required" minlength=" "/>
+				</div>
+		</div>	
+		<div class="control-group">
+				<label for="task_title" class="control-label">题目描述:</label>
+				<div class="controls">
+					<input type="text" id="description" name="description"     />
+				</div>
+		</div>	
+		
+	 	<div class="form-actions">
+				<input id="submit_btn" class="btn btn-primary" type="submit" value="提交" onclick="gogetueditorContent(this.form)"/>
+				<input id="cancel_btn" class="btn" type="button" value="返回" onclick="history.back()"/>
+		</div>
+		
 	</form>
 	
 	
