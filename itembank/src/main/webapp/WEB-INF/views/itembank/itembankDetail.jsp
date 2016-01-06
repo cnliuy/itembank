@@ -53,7 +53,7 @@
 				<div class="controls">${itembank.description}</div>
 		</div>		
 		<div class="form-actions">
-			<div><a class="btn" href="${ctx}/itembank/update">修改题目</a></div>
+			<div><a class="btn" href="${ctx}/itembank/toupdate/${itembank.id}">修改题目</a></div>
 			<div><a class="btn" href="${ctx}/itembank">题目列表</a></div>
 		</div>		
 	</c:if>

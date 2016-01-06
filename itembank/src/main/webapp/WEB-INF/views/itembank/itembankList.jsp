@@ -17,14 +17,15 @@
 	</div>
 	
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>题库</th><th>管理</th></tr></thead>
+		<thead><tr><th>id</th><th>题目</th><th>管理</th></tr></thead>
 		<tbody>
 		<c:forEach items="${itembanks.content}" var="itembank">
 			<tr>
 				<td><a href="${ctx}/itembank/showdetail/${itembank.id}">${itembank.id}</a></td>
 				<td>${itembank.content}</td>
+				<td><a href="${ctx}/itembank/showdetail/${itembank.id}">查看</a></td>
 				<td><a href="${ctx}/itembank/delete/${itembank.id}">删除</a></td>
-				<td><a href="${ctx}/itembank/update/${itembank.id}">更新</a></td>
+				<td><a href="${ctx}/itembank/toupdate/${itembank.id}">修改</a></td>
 			</tr>
 		</c:forEach>
 		</tbody>

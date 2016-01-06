@@ -110,12 +110,62 @@ public class ItembankController {
 		Itembank  itembank = new Itembank();
 		itembank.setContent(uecontent);
 		itembank.setDescription(description);
+		itembank.setItemclassify(itemclassify);
 		itembank.setTitle("title");
 		itembank.setUserId(userId);
 		itembankService.saveItembank(itembank);
 		return "redirect:/itembank/";
 	}
 	
+	
+	@RequestMapping("/updatepostuecontent")
+    public String updatepostuecontent(HttpServletRequest request,  HttpServletResponse response , Model model ,RedirectAttributes redirectAttributes) {
+		//System.out.println("in  itembankController() postuecontent");
+		//String uecontent =	(String) request.getAttribute("uepostcontent");   
+		//System.out.println("uecontent:"+uecontent); //空值
+		String uecontent = request.getParameter("uepostcontent");
+		String itembankId = request.getParameter("itembankId");
+		
+		//System.out.println("uecontent2:"+uecontent);		
+		String itemclassify = request.getParameter("itemclassify");
+		String description = request.getParameter("description");
+		Long userId = getCurrentUserId();
+		
+		Itembank  itembank = null;
+		if(itembankId == null || "".equals(itembankId)) {
+			//model.addAttribute("message", "不存在此题目");
+			redirectAttributes.addFlashAttribute("message", "不存在此题目");
+		}else{
+			try{
+				long itembankIdl = Long.parseLong(itembankId);
+				itembank = itembankService.getItembank(itembankIdl);
+				if(itembank == null || "".equals(itembank)) {
+					
+				}else{
+					Long ouserId = itembank.getUserId();
+					if(ouserId.longValue() == userId.longValue() ){						
+						itembank.setContent(uecontent);
+						itembank.setDescription(description);
+						itembank.setItemclassify(itemclassify);
+						itembank.setTitle("title");
+						itembank.setUserId(ouserId);
+						itembankService.saveItembank(itembank);
+						//model.addAttribute("message", "更新成功");
+						redirectAttributes.addFlashAttribute("message", "更新成功");
+					}else{
+						//model.addAttribute("message", "无权修改此题目");
+						redirectAttributes.addFlashAttribute("message", "无权修改此题目");
+					}
+				}
+			}catch(Exception e){
+				//model.addAttribute("message", "题目出现异常");
+				redirectAttributes.addFlashAttribute("message", "题目出现异常");
+			}
+		}
+		
+
+		return "redirect:/itembank/";
+	}
 	
 	
 	
@@ -141,7 +191,7 @@ public class ItembankController {
 		}else{
 			Long useId = getCurrentUserId();
 			Long itembankuseId = itembank.getUserId() ;
-			if(useId == itembankuseId){   //比对所拥有的用户是否 为现用户
+			if(useId.longValue() == itembankuseId.longValue()){   //比对所拥有的用户是否 为现用户
 				model.addAttribute("itembank", itembank);
 			}else{
 				model.addAttribute("message", "无权查看此题目");
@@ -150,6 +200,58 @@ public class ItembankController {
 		
 	    return "itembank/itembankDetail";  
 	}
+	
+	
+	@RequestMapping(value ="/toupdate/{id}" , method = RequestMethod.GET) 
+	public String toupdateForm(@PathVariable("id") Long itembankid, Model model) {
+		//System.out.println("here toupdate ");
+		Itembank itembank =  null ;
+		itembank = itembankService.getItembank(itembankid)  ; 
+		if(itembank == null ){
+			model.addAttribute("message", "空");
+		}else{
+			Long useId = getCurrentUserId();
+			
+			Long itembankuseId = itembank.getUserId() ;
+			//System.out.println("CurrentUserId:"+useId);
+			//System.out.println("itembankuseId:"+itembankuseId);
+			if(useId.longValue() == itembankuseId.longValue()){   //比对所拥有的用户是否 为现用户
+				model.addAttribute("itembank", itembank);
+			}else{
+				model.addAttribute("message", "无权修改此题目");
+			}
+		}
+		
+	    return "itembank/itembankUpadate";  
+	}
+	
+	
+	@RequestMapping(value = "delete/{id}")
+	public String delete(@PathVariable("id") Long itembankid,  Model model ,RedirectAttributes redirectAttributes) {
+		
+		Itembank itembank =  null ;
+		itembank = itembankService.getItembank(itembankid)  ; 
+		if(itembank == null ){			
+			redirectAttributes.addFlashAttribute("message", "空");
+		}else{
+			Long useId = getCurrentUserId();			
+			Long itembankuseId = itembank.getUserId() ;
+			//System.out.println("CurrentUserId:"+useId);
+			//System.out.println("itembankuseId:"+itembankuseId);
+			if(useId.longValue() == itembankuseId.longValue()){   
+				//比对所拥有的用户是否 为现用户
+				//为属主用户 可以删
+				itembankService.deleteItembank(itembankid);
+				redirectAttributes.addFlashAttribute("message", "删除任务成功");
+			}else{
+				
+				redirectAttributes.addFlashAttribute("message", "无权删除此项内容");
+			 
+			}		
+		}
+		return "redirect:/itembank/";
+	}
+
 
 //	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)
 //	public String updateForm(@PathVariable("id") Long id, Model model) {
@@ -165,12 +267,6 @@ public class ItembankController {
 //		return "redirect:/task/";
 //	}
 //
-//	@RequestMapping(value = "delete/{id}")
-//	public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
-//		taskService.deleteTask(id);
-//		redirectAttributes.addFlashAttribute("message", "删除任务成功");
-//		return "redirect:/task/";
-//	}
 
 	/**
 	 * 所有RequestMapping方法调用前的Model准备方法, 实现Struts2 Preparable二次部分绑定的效果,先根据form的id从数据库查出Task对象,再把Form提交的内容绑定到该对象上。
