@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.liuy.music.entity.Itembank;
+import org.liuy.music.entity.ReturnResponse;
 import org.liuy.music.entity.Task;
+import org.liuy.music.repository.ItembankDao;
+import org.liuy.music.service.Itembank.IaccessauthService;
 import org.liuy.music.service.Itembank.ItembankService;
 import org.liuy.music.service.account.ShiroDbRealm.ShiroUser;
 import org.liuy.music.service.task.TaskService;
@@ -42,7 +45,9 @@ public class ItembankController {
 	@Autowired
 	private ItembankService itembankService;
 	
-	
+	@Autowired
+	private IaccessauthService iaccessauthService;
+
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(@RequestParam(value = "page", defaultValue = "1") int pageNumber,
@@ -94,7 +99,9 @@ public class ItembankController {
 	 * 	}
 	 * 
 	 * form通过js修改提交服务器的值。实测可用
-	 *
+	 * 
+	 * ---新建无
+	 *    需鉴权
 	 * 
 	 * */
 	@RequestMapping("/postuecontent")
@@ -117,7 +124,12 @@ public class ItembankController {
 		return "redirect:/itembank/";
 	}
 	
-	
+	/**
+	 * 更新内容 
+	 * 
+	 *  ---修改需鉴权
+	 * 
+	 * */
 	@RequestMapping("/updatepostuecontent")
     public String updatepostuecontent(HttpServletRequest request,  HttpServletResponse response , Model model ,RedirectAttributes redirectAttributes) {
 		//System.out.println("in  itembankController() postuecontent");
@@ -126,7 +138,7 @@ public class ItembankController {
 		String uecontent = request.getParameter("uepostcontent");
 		String itembankId = request.getParameter("itembankId");
 		
-		//System.out.println("uecontent2:"+uecontent);		
+		System.out.println("uecontent2:"+uecontent);		
 		String itemclassify = request.getParameter("itemclassify");
 		String description = request.getParameter("description");
 		Long userId = getCurrentUserId();
@@ -136,31 +148,25 @@ public class ItembankController {
 			//model.addAttribute("message", "不存在此题目");
 			redirectAttributes.addFlashAttribute("message", "不存在此题目");
 		}else{
-			try{
-				long itembankIdl = Long.parseLong(itembankId);
-				itembank = itembankService.getItembank(itembankIdl);
-				if(itembank == null || "".equals(itembank)) {
-					
-				}else{
-					Long ouserId = itembank.getUserId();
-					if(ouserId.longValue() == userId.longValue() ){						
-						itembank.setContent(uecontent);
-						itembank.setDescription(description);
-						itembank.setItemclassify(itemclassify);
-						itembank.setTitle("title");
-						itembank.setUserId(ouserId);
-						itembankService.saveItembank(itembank);
-						//model.addAttribute("message", "更新成功");
-						redirectAttributes.addFlashAttribute("message", "更新成功");
-					}else{
-						//model.addAttribute("message", "无权修改此题目");
-						redirectAttributes.addFlashAttribute("message", "无权修改此题目");
-					}
+			try {
+				Long itembankIdl= Long.parseLong(itembankId); 
+				itembank = itembankService.getItembank(itembankIdl);			 
+				Long CurrentUserId = getCurrentUserId();
+				ReturnResponse rr = iaccessauthService.checkUserUpdate(CurrentUserId, itembankId);
+				int retCode = rr.getRetCode() ;
+				String retInfo  =rr.getRetInfo();
+				if(retCode == IaccessauthService.rCanDo){
+					itembank.setContent(uecontent);
+					itembank.setDescription(description);
+					itembank.setItemclassify(itemclassify);
+					itembank.setTitle("title");
+				 	itembankService.saveItembank(itembank);				
 				}
-			}catch(Exception e){
-				//model.addAttribute("message", "题目出现异常");
-				redirectAttributes.addFlashAttribute("message", "题目出现异常");
+				redirectAttributes.addFlashAttribute("message", retInfo);
+			} catch (Exception e) {			
+				redirectAttributes.addFlashAttribute("message", "参数错误，String到Long转化失败");		
 			}
+			
 		}
 		
 
@@ -181,7 +187,13 @@ public class ItembankController {
 	}
 	
 
-	
+	/**
+	 * 单个题目查看
+	 * 
+	 * ---查看需鉴权
+	 * 
+	 * 
+	 * */
 	@RequestMapping(value = "/showdetail/{id}" , method = RequestMethod.GET) 
 	public String showdetail(@PathVariable("id") Long itembankid, Model model) {
 		Itembank itembank =  null ;
@@ -189,19 +201,28 @@ public class ItembankController {
 		if(itembank == null ){
 			model.addAttribute("message", "空");
 		}else{
-			Long useId = getCurrentUserId();
-			Long itembankuseId = itembank.getUserId() ;
-			if(useId.longValue() == itembankuseId.longValue()){   //比对所拥有的用户是否 为现用户
-				model.addAttribute("itembank", itembank);
+			Long CurrentUserId = getCurrentUserId();
+			Long itembankId =  itembank.getId() ;
+			ReturnResponse rr = iaccessauthService.checkUserRead(CurrentUserId, itembankId);
+			int retCode = rr.getRetCode() ;
+			String retInfo  =rr.getRetInfo();
+			if(retCode == IaccessauthService.rCanDo){
+				model.addAttribute("itembank", itembank);			
 			}else{
-				model.addAttribute("message", "无权查看此题目");
+				model.addAttribute("message", retInfo);	
 			}
 		}
 		
 	    return "itembank/itembankDetail";  
 	}
 	
-	
+	/**
+	 * 单个题目更新
+	 * 
+	 * ---更新需鉴权
+	 * 
+	 * 
+	 * */
 	@RequestMapping(value ="/toupdate/{id}" , method = RequestMethod.GET) 
 	public String toupdateForm(@PathVariable("id") Long itembankid, Model model) {
 		//System.out.println("here toupdate ");
@@ -210,22 +231,27 @@ public class ItembankController {
 		if(itembank == null ){
 			model.addAttribute("message", "空");
 		}else{
-			Long useId = getCurrentUserId();
 			
-			Long itembankuseId = itembank.getUserId() ;
-			//System.out.println("CurrentUserId:"+useId);
-			//System.out.println("itembankuseId:"+itembankuseId);
-			if(useId.longValue() == itembankuseId.longValue()){   //比对所拥有的用户是否 为现用户
+			Long CurrentUserId = getCurrentUserId();			 
+			ReturnResponse rr = iaccessauthService.checkUserUpdate(CurrentUserId, itembank) ;
+			int  retCode = rr.getRetCode();
+			if (retCode == iaccessauthService.rCanDo ){
 				model.addAttribute("itembank", itembank);
 			}else{
-				model.addAttribute("message", "无权修改此题目");
+				model.addAttribute("message", rr.getRetInfo());
 			}
 		}
 		
 	    return "itembank/itembankUpadate";  
 	}
 	
-	
+	/**
+	 * 题目删除
+	 * 
+	 * ---删除鉴权
+	 * 
+	 * 
+	 * */
 	@RequestMapping(value = "delete/{id}")
 	public String delete(@PathVariable("id") Long itembankid,  Model model ,RedirectAttributes redirectAttributes) {
 		
@@ -234,20 +260,14 @@ public class ItembankController {
 		if(itembank == null ){			
 			redirectAttributes.addFlashAttribute("message", "空");
 		}else{
-			Long useId = getCurrentUserId();			
-			Long itembankuseId = itembank.getUserId() ;
-			//System.out.println("CurrentUserId:"+useId);
-			//System.out.println("itembankuseId:"+itembankuseId);
-			if(useId.longValue() == itembankuseId.longValue()){   
-				//比对所拥有的用户是否 为现用户
-				//为属主用户 可以删
-				itembankService.deleteItembank(itembankid);
-				redirectAttributes.addFlashAttribute("message", "删除任务成功");
-			}else{
-				
-				redirectAttributes.addFlashAttribute("message", "无权删除此项内容");
-			 
-			}		
+			Long CurrentUserId = getCurrentUserId();			 
+			ReturnResponse rr =  iaccessauthService.checkUserDel(CurrentUserId, itembank);
+			if (rr.getRetCode() ==  iaccessauthService.rCanDo){
+				//权限够 可删除
+				itembankService.deleteItembank(itembankid);				
+			} 
+			redirectAttributes.addFlashAttribute("message",rr.getRetInfo());
+			
 		}
 		return "redirect:/itembank/";
 	}
@@ -285,5 +305,16 @@ public class ItembankController {
 	private Long getCurrentUserId() {
 		ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 		return user.id;
+	}
+	
+	
+	
+
+	public IaccessauthService getIaccessauthService() {
+		return iaccessauthService;
+	}
+
+	public void setIaccessauthService(IaccessauthService iaccessauthService) {
+		this.iaccessauthService = iaccessauthService;
 	}
 }
