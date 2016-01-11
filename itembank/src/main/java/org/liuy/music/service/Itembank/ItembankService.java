@@ -1,5 +1,7 @@
 package org.liuy.music.service.Itembank;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -59,6 +61,29 @@ public class ItembankService {
  		//return itembankDao.findAll(spec, pageRequest);
 		
  		return itembankDao.findByUserIdOrderByIdDesc(userId, pageRequest);
+	}
+	
+	/**
+	 * 得到所需的 Itembank 列表
+	 * 
+	 * 
+	 * */
+	public   List<Itembank> gogetUserItembankList(List<Long> itembankIds) {
+		List <Itembank>  ibs = new ArrayList<Itembank>();
+		 
+		Iterator<Long> idsi = itembankIds.iterator();
+	
+	    while(idsi.hasNext()){
+	    	Itembank ib= itembankDao.findById(idsi.next());
+	    	if(ib==null){
+	    		
+	    	}else{
+	    		ibs.add(ib);
+	    	}	         
+	    }
+	    
+	    return ibs;
+		
 	}
 
 	/**

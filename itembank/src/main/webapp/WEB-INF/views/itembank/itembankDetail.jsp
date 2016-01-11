@@ -38,20 +38,24 @@
 	 
 	<c:if test="${not empty itembank}">
 		<div class="control-group">
-				<label for="task_title" class="control-label">题目内容:</label>
+				<label for="task_title" class="control-label"> <B>题目内容:</B></label>
 				<div class="controls">
 				${itembank.content}				 
 				</div>
 		</div>
 		<br></br>
 		<div class="control-group">
-				<label for="task_title" class="control-label">题目分类:</label>
+				<label for="task_title" class="control-label"> <B>题目分类:</B></label>
 				<div class="controls">${itembank.itemclassify}</div>
 		</div>	
 		<div class="control-group">
-				<label for="task_title" class="control-label">题目描述:</label>
-				<div class="controls">${itembank.description}</div>
-		</div>		
+				<label for="task_title" class="control-label"> <B>题目答案:</B></label>
+				<div class="controls">${itembank.itemanswer}</div>
+		</div>	
+		<div class="control-group">
+				<label for="task_title" class="control-label"> <B>题目范围:</B></label>
+				<div class="controls">${itembank.itemrange1}</div>&nbsp;<div class="controls">${itembank.itemrange2}</div>
+		</div>	
 		<div class="form-actions">
 			<div><a class="btn" href="${ctx}/itembank/toupdate/${itembank.id}">修改题目</a></div>
 			<div><a class="btn" href="${ctx}/itembank">题目列表</a></div>

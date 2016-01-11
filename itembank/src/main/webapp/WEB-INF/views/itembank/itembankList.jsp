@@ -17,14 +17,14 @@
 	</div>
 	
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>id</th><th>题目</th><th>管理</th></tr></thead>
+		<thead><tr><th>id</th><th>题目</th><th>答案</th><th>管理</th></tr></thead>
 		<tbody>
 		<c:forEach items="${itembanks.content}" var="itembank">
 			<tr>
 				<td><a href="${ctx}/itembank/showdetail/${itembank.id}">${itembank.id}</a></td>
-				<td>${itembank.content}</td>
+				<td>${itembank.content}</td><td>${itembank.itemanswer}</td>
 				<td><a href="${ctx}/itembank/showdetail/${itembank.id}">查看</a></td>
-				<td><a href="${ctx}/itembank/delete/${itembank.id}">删除</a></td>
+				<td><a href="${ctx}/itembank/delete/${itembank.id}" onclick="javascript:return del('您真的确定要删除吗？\n\n删除后将不能恢复!');">删除</a></td>
 				<td><a href="${ctx}/itembank/toupdate/${itembank.id}">修改</a></td>
 			</tr>
 		</c:forEach>
@@ -33,9 +33,11 @@
 	
 	<tags:pagination page="${itembanks}" paginationSize="5"/>
 	<div><a class="btn" href="${ctx}/task/gocreate">创建任务2</a></div><br>
-	<div><a class="btn" href="${ctx}/task/create">创建任务</a></div>
-	
-	<div><a href="${ctx}/itembank/tocreateitembankpage">创建题</a></div>
+	<div><a class="btn" href="${ctx}/task/create">创建任务</a></div>	
 	<div><a class="btn" href="${ctx}/itembank">题目列表</a></div>
+	<br>
+	<div><a href="${ctx}/itembank">题目列表</a></div>&nbsp;
+	<div><a href="${ctx}/itembank/tocreateitembankpage">创建题目</a></div>
+	<div><a href="${ctx}/itembank/tocreateitembankListpage">随机生成题目列表</a></div>
 </body>
 </html>

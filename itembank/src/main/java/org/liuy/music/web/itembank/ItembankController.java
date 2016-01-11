@@ -1,6 +1,8 @@
 package org.liuy.music.web.itembank;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -72,6 +74,55 @@ public class ItembankController {
 		return "itembank/itembankForm";
 	}
 	
+	@RequestMapping(value = "tocreateitembankListpage", method = RequestMethod.GET)
+	public String tocreateitembankListpage(Model model) {		 
+		model.addAttribute("action", "create");
+		return "itembank/itembankgenList";
+	}
+	
+	
+	/**
+	 * 根据范围和数目 生成题目列表
+	 * */
+	@RequestMapping(value = "genitembankList" )
+	public String genitembankList(Model model ,HttpServletRequest request ) {		 
+		//model.addAttribute("action", "create");		
+		String itemnum = request.getParameter("itemnum").trim();
+		Integer iitemnum =-1 ;
+		int  flag = 1 ;		 
+		try {
+			Integer.parseInt(itemnum) ;
+		} catch (Exception e) {
+			flag = 0 ;
+		}
+		
+		if (flag == 1 ){//无异常
+			iitemnum = Integer.parseInt(itemnum) ; 
+		}
+		
+		if (iitemnum == -1 ){
+			//题目数异常
+		}else{
+			//正常
+			//查找题目，随机生成题目列表
+			System.out.println("生成的题目数："+iitemnum);
+		}
+		
+		
+		//--实验--
+		List<Long> itembankIds = new ArrayList();
+		itembankIds.add(1L);
+		itembankIds.add(3L);
+		List<Itembank>  ibs = itembankService.gogetUserItembankList(itembankIds);
+		if(ibs.size() == 0 || ibs == null){
+			model.addAttribute("message", "题目生成出现错误");
+		}else{
+			model.addAttribute("message", "题目生成成功");
+			model.addAttribute("itembanks", ibs);
+		}
+		
+		return "itembank/itembankgenList";
+	}
 
 //	@RequestMapping(value = "create", method = RequestMethod.POST)
 //	public String create( HttpServletRequest request,  HttpServletResponse response) {
@@ -113,12 +164,20 @@ public class ItembankController {
 		//System.out.println("uecontent2:"+uecontent);		
 		String itemclassify = request.getParameter("itemclassify");
 		String description = request.getParameter("description");
+		String itemanswer = request.getParameter("itemanswer");
+		String itemrange1 = request.getParameter("itemrange1");
+		String itemrange2 = request.getParameter("itemrange2");
+		
+		
 		Long userId = getCurrentUserId();
 		Itembank  itembank = new Itembank();
 		itembank.setContent(uecontent);
 		itembank.setDescription(description);
 		itembank.setItemclassify(itemclassify);
 		itembank.setTitle("title");
+		itembank.setItemanswer(itemanswer);
+		itembank.setItemrange1(itemrange1);
+		itembank.setItemrange2(itemrange2);
 		itembank.setUserId(userId);
 		itembankService.saveItembank(itembank);
 		return "redirect:/itembank/";
@@ -137,6 +196,9 @@ public class ItembankController {
 		//System.out.println("uecontent:"+uecontent); //空值
 		String uecontent = request.getParameter("uepostcontent");
 		String itembankId = request.getParameter("itembankId");
+		String itemanswer = request.getParameter("itemanswer");
+		String itemrange1 = request.getParameter("itemrange1");
+		String itemrange2 = request.getParameter("itemrange2");
 		
 		System.out.println("uecontent2:"+uecontent);		
 		String itemclassify = request.getParameter("itemclassify");
@@ -160,6 +222,9 @@ public class ItembankController {
 					itembank.setDescription(description);
 					itembank.setItemclassify(itemclassify);
 					itembank.setTitle("title");
+					itembank.setItemanswer(itemanswer);
+					itembank.setItemrange1(itemrange1);
+					itembank.setItemrange2(itemrange2);
 				 	itembankService.saveItembank(itembank);				
 				}
 				redirectAttributes.addFlashAttribute("message", retInfo);

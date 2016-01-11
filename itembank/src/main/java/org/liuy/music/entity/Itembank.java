@@ -1,5 +1,6 @@
 package org.liuy.music.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,9 +15,14 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Itembank extends IdEntity {
 
 	private String title;
+	
 	private String content;
+	private String itemanswer;
 	private String description;
 	private String itemclassify;
+	private String itemrange1;
+	private String itemrange2;
+	
 	private Integer itemorder;
 	private Integer weighting ;
 	private Integer itemscope1 ;
@@ -33,10 +39,11 @@ public class Itembank extends IdEntity {
 		this.title = title;
 	}
 
-
+	@Column(length=2000)  //设定字段的长度 
 	public String getContent() {
 		return content;
 	}
+
 	public void setContent(String content) {
 		this.content = content;
 	}
@@ -116,6 +123,27 @@ public class Itembank extends IdEntity {
 	}
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+	
+	
+	
+	public String getItemrange1() {
+		return itemrange1;
+	}
+	public void setItemrange1(String itemrange1) {
+		this.itemrange1 = itemrange1;
+	}
+	public String getItemrange2() {
+		return itemrange2;
+	}
+	public void setItemrange2(String itemrange2) {
+		this.itemrange2 = itemrange2;
+	}
+	public String getItemanswer() {
+		return itemanswer;
+	}
+	public void setItemanswer(String itemanswer) {
+		this.itemanswer = itemanswer;
 	}
 	@Override
 	public String toString() {

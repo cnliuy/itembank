@@ -120,18 +120,45 @@
 		<input type="hidden" id="uepostcontent"  name="uepostcontent" value=""/>
 		<input type="hidden" id="itembankId"  name="itembankId" value="${itembank.id}" />
 		<br></br>
+		
+		
 		<div class="control-group">
-				<label for="task_title" class="control-label">题目分类:</label>
+				<label for="task_title" class="control-label">题目类型:</label>
 				<div class="controls">
-					<input type="text" id="itemclassify" name="itemclassify"   class="input-large required" minlength=""  value="${itembank.itemclassify}"/>
+					<select class="input-large required" name="itemclassify" id="itemclassify">
+                        <option  selected="selected">${itembank.itemclassify}</option>
+                        <option>单选题</option>
+                        <option>多选题</option>
+                    </select>
+				</div>
+		</div>
+		<div class="control-group">
+				<label for="task_title" class="control-label">题目答案:</label>
+				<div class="controls">
+					<input type="text" id="itemanswer" name="itemanswer" value="${itembank.itemanswer}"/>
+				</div>
+		</div>
+
+		<div class="control-group">
+				<label for="task_title" class="control-label">题目范围:</label>
+				<div class="controls">					
+					<select class="input-large required" name="itemrange1" id="itemrange1"  >
+						<option  selected="selected">${itembank.itemrange1}</option>
+                        <option>第一学年</option>
+                        <option>第二学年</option>
+                        <option>第三学年</option>
+                        <option>第四学年</option>
+                    </select>
+				</div>
+				<div class="controls">					
+					<select class="input-large required" name="itemrange2" id="itemrange2" value="${itembank.itemrange2}">
+					    <option  selected="selected">${itembank.itemrange2}</option>
+                        <option>第一学期</option>
+                        <option>第二学期</option>
+                    </select>
 				</div>
 		</div>	
-		<div class="control-group">
-				<label for="task_title" class="control-label">题目描述:</label>
-				<div class="controls">
-					<input type="text" id="description" name="description"  value="${itembank.description}"   />
-				</div>
-		</div>	
+			
 		
 	 	<div class="form-actions">
 				<input id="submit_btn" class="btn btn-primary" type="submit" value="提交" onclick="gogetueditorContent(this.form)"/>
