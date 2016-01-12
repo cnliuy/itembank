@@ -36,18 +36,9 @@
 	</c:forEach>
 	
 	</table>
-	
-
 	<br>
-	
-	<c:if test="${not empty filename}">
-		<div><a href="${ctx}/static/temphtml/${filename}" class="btn">生成HTML文件</a></div>
-		
-		<div><a href="${ctx}/itembank/genPdfFile?pdfFilename=${filename}" class="btn">生成PDF文件</a></div>
-		
-	</c:if>
-	
-	
+	<div><a href="${ctx}/itembank/#">生成pdf文件</a></div>
+
 	
 
 </body>

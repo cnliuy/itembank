@@ -1,9 +1,18 @@
 package org.liuy.music.web.itembank;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +37,7 @@ import org.liuy.music.service.Itembank.IaccessauthService;
 import org.liuy.music.service.Itembank.ItembankService;
 import org.liuy.music.service.account.ShiroDbRealm.ShiroUser;
 import org.liuy.music.service.task.TaskService;
+import org.liuy.music.tools.HtmlToPdf;
 import org.springside.modules.web.Servlets;
 import com.google.common.collect.Maps;
 
@@ -82,6 +92,39 @@ public class ItembankController {
 	
 	
 	/**
+	 * 生成pdf文件
+	 * */
+	@RequestMapping(value = "genPdfFile" )
+	public String genPdfFile(Model model ,HttpServletRequest request ) {	
+		String pdfFilename = request.getParameter("pdfFilename");
+		pdfFilename = pdfFilename.replace(".html", "");
+		System.out.println("文件名称:"+pdfFilename);
+		
+		 
+		String realPath = request.getRealPath("/")+"static"+File.separator+"temphtml"+File.separator;
+		String filename =  realPath+pdfFilename+".pdf" ;
+		//url完整链接获取
+		String urlpathpart = request.getContextPath();  
+		String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+urlpathpart+"/";  
+		String pageurl = basePath+"/static/temphtml/"+pdfFilename+".html ";
+		
+		
+		String messagesucc = "";
+		String messagefail = "";
+		if( HtmlToPdf.convert(pageurl,filename) ){
+			messagesucc = "成功生成pdf文件";
+			model.addAttribute("messagesucc", messagesucc);
+			model.addAttribute("pdfFilename", pdfFilename);
+			//response.sendRedirect(request.getContextPath() + "/tmp/" + pdfName); 
+		}else{
+			messagefail = "pdf文件生成失败";
+			model.addAttribute("messagefail", messagefail);
+		}
+		
+		return "itembank/topdfPage";
+	}
+	
+	/**
 	 * 根据范围和数目 生成题目列表
 	 * */
 	@RequestMapping(value = "genitembankList" )
@@ -117,8 +160,88 @@ public class ItembankController {
 		if(ibs.size() == 0 || ibs == null){
 			model.addAttribute("message", "题目生成出现错误");
 		}else{
-			model.addAttribute("message", "题目生成成功");
+			
 			model.addAttribute("itembanks", ibs);
+			
+			String htmlbodystr = "";
+			String htmlbodyanswerstr = "";
+			Iterator <Itembank> ibsi = ibs.iterator() ;
+			int tmpi = 0 ;
+			while(ibsi.hasNext()){
+				Itembank ibooo = ibsi.next() ;
+				tmpi++;
+				htmlbodystr = htmlbodystr+tmpi+"."+ibooo.getContent() +"<br> \r\n";
+				htmlbodyanswerstr = htmlbodyanswerstr+tmpi+"."+ibooo.getItemanswer()+"\r\n" ;
+			}			 
+			String ctx = request.getContextPath();
+			
+			String htmlstr = "<!DOCTYPE html>"
+			+ "<html>\r\n"
+			+ "<head>\r\n"
+			+ "<title></title>\r\n"
+			+ "<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\" />\r\n"
+			+ "<link type=\"image/x-icon\" href=\"${ctx}/static/images/favicon.ico\" rel=\"shortcut icon\">\r\n"
+			+ "<link href=\""+ctx+"/static/bootstrap/2.3.2/css/bootstrap.min.css\" type=\"text/css\" rel=\"stylesheet\" />\r\n"
+			+ "<link href=\""+ctx+"/static/jquery-validation/1.11.1/validate.css\" type=\"text/css\" rel=\"stylesheet\" />\r\n"
+			+ "<link href=\""+ctx+"/static/styles/default.css\" type=\"text/css\" rel=\"stylesheet\" />\r\n"
+			+ "<link href=\"http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.css\" rel=\"stylesheet\">\r\n"
+			+ "<link href=\"http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css\" rel=\"stylesheet\">\r\n"
+			+ "<link href=\"http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css\" rel=\"stylesheet\">\r\n"
+			+ "<link href=\"http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css\" rel=\"stylesheet\">\r\n"
+			+ "<script src=\""+ctx+"/static/jquery/jquery-1.9.1.min.js\" type=\"text/javascript\"></script>\r\n"
+			+ "<script src=\""+ctx+"/static/jquery/jquery.hotkeys.js\" type=\"text/javascript\"></script>\r\n"
+			+ "<script src=\""+ctx+"/static/google-code-prettify/prettify.js\" type=\"text/javascript\"></script>\r\n"
+			+ "<script src=\""+ctx+"/static/jquery-validation/1.11.1/jquery.validate.min.js\" type=\"text/javascript\"></script>\r\n"
+			+ "<script src=\""+ctx+"/static/jquery-validation/1.11.1/messages_bs_zh.js\" type=\"text/javascript\"></script>\r\n"
+			+ "<script src=\""+ctx+"/static/bootstrap/2.3.2/js/bootstrap.min.js\" type=\"text/javascript\"></script>\r\n"
+			+ "<script src=\""+ctx+"/static/bootstrap/2.3.2/js/bootstrap-wysiwyg.js\" type=\"text/javascript\"></script>\r\n"
+		    + "</head>\r\n"
+		    + "<body>\r\n"
+		    + "	<table id=\"contentTable\" class=\"table table-striped table-bordered table-condensed\">\r\n"
+		    + htmlbodystr+"<br></br>"+"答案是：<br>"+htmlbodyanswerstr
+			+ "	</table>\r\n"
+			+ "</body>\r\n"
+			+ "</html>"	;
+			
+			String realPath = request.getRealPath("/")+"static"+File.separator+"temphtml"+File.separator;
+			
+			System.out.println(htmlstr);
+			System.out.println("realPath:"+realPath);
+			String message = "题目生成成功" ;
+			
+			String filename ="";
+			try{
+				
+				String s1 = UUID.randomUUID().toString();
+				//String s2 = UUID.randomUUID().toString();
+				filename = s1+".html";
+				//File file = new File(realPath+filename);
+				// if file doesnt exists, then create it
+				//if (!file.exists()) {
+				//	file.createNewFile();
+				//}
+				//FileWriter fw = new FileWriter(file.getAbsoluteFile());
+				//BufferedWriter bw = new BufferedWriter(fw);
+				//bw.write(htmlstr);
+				//bw.close();
+			   
+				FileOutputStream fos = new FileOutputStream(realPath+filename); 
+				OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8"); 
+				osw.write(htmlstr); 
+				osw.flush(); 
+				osw.close();
+				
+				
+				model.addAttribute("filename", filename);
+				
+				message = message + " html页面生成成功 " ;				
+				System.out.println("生成文件成功 ");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}			
+			model.addAttribute("message", message);
+			
+			 
 		}
 		
 		return "itembank/itembankgenList";
