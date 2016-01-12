@@ -205,7 +205,7 @@ public class ItembankController {
 			
 			String realPath = request.getRealPath("/")+"static"+File.separator+"temphtml"+File.separator;
 			
-			System.out.println(htmlstr);
+			//System.out.println(htmlstr);
 			System.out.println("realPath:"+realPath);
 			String message = "题目生成成功" ;
 			

@@ -9,6 +9,19 @@
 </head>
 
 <body>
+
+	<script language="javascript"> 
+	//删除确认
+	function del_sure(){ 
+		var gnl=confirm("您真的确定要删除吗？\n\n删除后将不能恢复!"); 
+		if (gnl==true){ 
+			return true; 
+		}else{ 
+			return false; 
+		} 
+	} 
+	</script> 
+
 	<c:if test="${not empty message}">
 		<div id="message" class="alert alert-success"><button data-dismiss="alert" class="close">×</button>${message}</div>
 	</c:if>
@@ -24,20 +37,24 @@
 				<td><a href="${ctx}/itembank/showdetail/${itembank.id}">${itembank.id}</a></td>
 				<td>${itembank.content}</td><td>${itembank.itemanswer}</td>
 				<td><a href="${ctx}/itembank/showdetail/${itembank.id}">查看</a></td>
-				<td><a href="${ctx}/itembank/delete/${itembank.id}" onclick="javascript:return del('您真的确定要删除吗？\n\n删除后将不能恢复!');">删除</a></td>
+				<td><a href="${ctx}/itembank/delete/${itembank.id}" style="color:red;" 
+	                    	onclick="javascript:return del_sure()" >删除</a></td>
 				<td><a href="${ctx}/itembank/toupdate/${itembank.id}">修改</a></td>
 			</tr>
 		</c:forEach>
 		</tbody>
 	</table>
 	
-	<tags:pagination page="${itembanks}" paginationSize="5"/>
+	<tags:pagination page="${itembanks}" paginationSize="10"/>
+	<!--  
 	<div><a class="btn" href="${ctx}/task/gocreate">创建任务2</a></div><br>
 	<div><a class="btn" href="${ctx}/task/create">创建任务</a></div>	
 	<div><a class="btn" href="${ctx}/itembank">题目列表</a></div>
+	-->
 	<br>
-	<div><a href="${ctx}/itembank">题目列表</a></div>&nbsp;
-	<div><a href="${ctx}/itembank/tocreateitembankpage">创建题目</a></div>
+	&nbsp;
+	<div><a href="${ctx}/itembank/tocreateitembankpage"  class="btn" >创建题目</a></div> <br>
+	<div><a href="${ctx}/itembank">题目列表</a></div>
 	<div><a href="${ctx}/itembank/tocreateitembankListpage">随机生成题目列表</a></div>
 </body>
 </html>
