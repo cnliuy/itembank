@@ -37,8 +37,11 @@ import org.liuy.music.service.Itembank.IaccessauthService;
 import org.liuy.music.service.Itembank.ItembankService;
 import org.liuy.music.service.account.ShiroDbRealm.ShiroUser;
 import org.liuy.music.service.task.TaskService;
+import org.liuy.music.tools.CheckString;
 import org.liuy.music.tools.HtmlToPdf;
 import org.springside.modules.web.Servlets;
+import org.webbitserver.handler.StaticFile;
+
 import com.google.common.collect.Maps;
 
 
@@ -124,6 +127,8 @@ public class ItembankController {
 		return "itembank/topdfPage";
 	}
 	
+
+	
 	/**
 	 * 根据范围和数目 生成题目列表
 	 * */
@@ -131,6 +136,36 @@ public class ItembankController {
 	public String genitembankList(Model model ,HttpServletRequest request ) {		 
 		//model.addAttribute("action", "create");		
 		String itemnum = request.getParameter("itemnum").trim();
+		
+		String itemrange1 = request.getParameter("itemrange1").trim();
+		//if ( CheckString.cclm(itemrange1)){
+		//if (itemrange1.substring(0, 1).equals("?") ){
+			//itemrange1= itemrange1.trim().substring(1);	
+		//}		
+		
+		String itemrange2 = request.getParameter("itemrange2").trim();	
+		//System.out.println(  CheckString.cclm(itemrange2) );
+		//if ( CheckString.cclm(itemrange2)){
+		//if (itemrange2.substring(0, 1).equals("?") ){
+		//	itemrange2= itemrange2.trim().substring(1);	
+		//}
+		
+		String itemclassify = request.getParameter("itemclassify").trim();
+		//if ( CheckString.cclm(itemclassify)){
+		//if (itemclassify.substring(0, 1).equals("?") ){
+		//	itemclassify= itemclassify.trim().substring(1);
+		//}
+		//}
+		model.addAttribute("itemrange1", itemrange1);
+		model.addAttribute("itemrange2", itemrange2);
+		model.addAttribute("itemclassify", itemclassify);
+		model.addAttribute("itemnum", itemnum);
+		
+		//出现怪异字符 需要删除 第一个？字符  上面使用 .substring(1);处理
+		//-----------------?音的性质--------?简易-----------?填空题
+		System.out.println("------------"+itemnum+"-----"+itemrange1+"--------"+itemrange2+"-----------"+itemclassify );
+		
+		// 需要调整  liuy
 		Integer iitemnum =-1 ;
 		int  flag = 1 ;		 
 		try {
@@ -290,6 +325,7 @@ public class ItembankController {
 		String itemanswer = request.getParameter("itemanswer");
 		String itemrange1 = request.getParameter("itemrange1");
 		String itemrange2 = request.getParameter("itemrange2");
+		System.out.println("itemrange2------"+itemrange2);
 		
 		
 		Long userId = getCurrentUserId();

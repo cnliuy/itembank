@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -12,19 +13,35 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONException;
+import org.liuy.music.entity.Itembankkind;
+import org.liuy.music.service.Itembank.ItembankService;
+import org.liuy.music.service.task.TaskService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springside.modules.web.MediaTypes;
 
 import com.baidu.ueditor.ActionEnter;
 
 /**
  * Itembank 的 Restful API的Controller.
  * 
+ * 主要是用于
+ *    百度的 ueditor
+ * 
  * @author liuy
  */
 @RestController
 @RequestMapping(value = "/ueditor")
 public class ItembankRestController {
+	private static Logger logger = LoggerFactory.getLogger(ItembankRestController.class);
+
+	@Autowired
+	private ItembankService itembankService;
+	
 		
 	/**
 	 * http://localhost:8080/itembank/ueditor/dispatch
@@ -135,4 +152,16 @@ public class ItembankRestController {
 		System.out.println("uecontent2:"+uecontent2);
 		
 	}
+
+	public ItembankService getItembankService() {
+		return itembankService;
+	}
+	public void setItembankService(ItembankService itembankService) {
+		this.itembankService = itembankService;
+	}
+	
+	
+	
+	
+	
 }

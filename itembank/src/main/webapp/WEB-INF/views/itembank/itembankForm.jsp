@@ -24,6 +24,83 @@
 	<script src="${ctx}/static/jquery-validation/1.11.1/jquery.validate.min.js" type="text/javascript"></script>
 	<script src="${ctx}/static/jquery-validation/1.11.1/messages_bs_zh.js" type="text/javascript"></script>
 	
+	<script type="text/javascript">
+	//获取题目类型的分类数据  写入相应的 多选框中
+    //window.onload = function(){ 
+    //$(function(){
+     window.onload = $(function(){
+            //$("#btn").click(function(){           	
+                $.getJSON("${ctx}/itembankrest/gogetitembankkinds",function(data){
+                    var $jsontip = $("#itemclassifyoption");
+                    var strHtml = "<select class=\"input-large required\" name=\"itemclassify\" id=\"itemclassify\">	";
+                    //alert(data);
+                    $jsontip.empty();
+                    $.each(data,function(infoIndex,info){
+                    	//alert(infoIndex);                  
+                    	if(infoIndex == 0){
+                    		strHtml += "<option  selected=\"selected\">"+info["title"]+"</option>";                    		
+                    	}else{
+                    		strHtml += "<option>"+ info["title"]+"</option>";
+                            //strHtml += "id:"+info["id"]+"<br>";
+                            //strHtml += "<br>";
+                            //strHtml += "<hr>"
+                    	} 
+                    })
+                    strHtml += "</select>" ;
+                    alert(strHtml); 
+                    $jsontip.html(strHtml); 
+
+                })
+           // })
+           
+              $.getJSON("${ctx}/itembankrest/gogetitembankranges",function(data2){
+                    var $jsontip2 = $("#itemrange1option");
+                    var strHtml2 = "<select class=\"input-large required\" name=\"itemrange1\" id=\"itemrange1\">";
+                    //alert(data);
+                    $jsontip2.empty();
+                    $.each(data2,function(infoIndex,info){
+                    	//alert(infoIndex);                  
+                    	if(infoIndex == 0){
+                    		strHtml2 += "<option  selected=\"selected\">"+info["title"]+"</option>";                    		
+                    	}else{
+                    		strHtml2 += "<option>"+info["title"]+"</option>";
+                            //strHtml += "id:"+info["id"]+"<br>";
+                            //strHtml += "<br>";
+                            //strHtml += "<hr>"
+                    	} 
+                    })
+                    strHtml2 += "</select>" ;
+                    //alert(strHtml2); 
+                    $jsontip2.html(strHtml2); 
+                })
+                
+                
+
+            
+            $.getJSON("${ctx}/itembankrest/gogetitembanklevel",function(data3){
+                var $jsontip3 = $("#itemrange2option");
+                var strHtml3 = "<select class=\"input-large required\" name=\"itemrange2\" id=\"itemrange2\">";
+                //alert(data);
+                $jsontip3.empty();
+                $.each(data3,function(infoIndex,info){
+                	//alert(infoIndex);                  
+                	if(infoIndex == 0){
+                		strHtml3 += "<option  selected=\"selected\">"+info["title"]+"</option>";                    		
+                	}else{
+                		strHtml3 += "<option>"+info["title"]+"</option>";
+                	} 
+                })
+                strHtml3 += "</select>" ;
+                $jsontip3.html(strHtml3); 
+            })
+                
+        })
+    </script>    
+    
+    
+    
+    
+	
 </head>
 
 <body>
@@ -168,11 +245,12 @@
 		<br></br>
 		<div class="control-group">
 				<label for="task_title" class="control-label">题目类型:</label>
-				<div class="controls">
-					<select class="input-large required" name="itemclassify" id="itemclassify">
-                        <option  selected="selected">单选题</option>
-                        <option>多选题</option>
-                    </select>
+				<div class="controls">									
+					<div id = "itemclassifyoption"></div>
+					<!--
+						<option  selected="selected">单选题</option>
+                        <option>多选题</option> 
+					 -->                    
 				</div>
 		</div>
 		<div class="control-group">
@@ -184,19 +262,30 @@
 
 		<div class="control-group">
 				<label for="task_title" class="control-label">题目范围:</label>
-				<div class="controls">					
+				<div class="controls">			
+						
+					
+					<div id = "itemrange1option">
+					<!--
 					<select class="input-large required" name="itemrange1" id="itemrange1">
                         <option  selected="selected">第一学年</option>
                         <option>第二学年</option>
                         <option>第三学年</option>
                         <option>第四学年</option>
-                    </select>
+                     </select>
+                     -->
+                    </div>
+                    
 				</div>
-				<div class="controls">					
+				<div class="controls">
+
+					<div id = "itemrange2option"></div>
+					<!--  
 					<select class="input-large required" name="itemrange2" id="itemrange2">
                         <option  selected="selected">第一学期</option>
                         <option>第二学期</option>
                     </select>
+                    --> 
 				</div>
 		</div>	
 

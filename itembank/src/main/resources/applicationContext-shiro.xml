@@ -2,8 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
     default-lazy-init="true">
-
-	<description>Shiro安全配置</description>
+    <description>Shiro安全配置</description>
 
 	<!-- Shiro's main business-tier object for web-enabled applications -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
@@ -26,7 +25,10 @@
 				/login = authc
 				/logout = logout
 				/static/** = anon
-				/ueditor/** = anon				
+				/ueditor/** = anon	
+				/itembankrest/gogetitembankkinds = anon	
+				/itembankrest/gogetitembankranges = anon
+				/itembankrest/gogetitembanklevel = anon					
 				/api/** = anon
 				/register/** = anon
 				/admin/** = roles[admin]

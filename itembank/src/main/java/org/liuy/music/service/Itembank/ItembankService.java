@@ -14,8 +14,14 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.liuy.music.entity.Itembank;
+import org.liuy.music.entity.Itembankkind;
+import org.liuy.music.entity.Itembanklevel;
+import org.liuy.music.entity.Itembankrange;
 import org.liuy.music.entity.Task;
 import org.liuy.music.repository.ItembankDao;
+import org.liuy.music.repository.ItembankkindDao;
+import org.liuy.music.repository.ItembanklevelDao;
+import org.liuy.music.repository.ItembankrangeDao;
 import org.liuy.music.repository.TaskDao;
 import org.springside.modules.persistence.DynamicSpecifications;
 import org.springside.modules.persistence.SearchFilter;
@@ -25,10 +31,33 @@ import org.springside.modules.persistence.SearchFilter.Operator;
 @Transactional
 public class ItembankService {
 
-	private ItembankDao itembankDao;
+	private ItembankDao itembankDao;	
+	private ItembankkindDao itembankkindDao;
+	private ItembankrangeDao itembankrangeDao;
+	private ItembanklevelDao itembanklevelDao;
 
 	public Itembank getItembank(Long id) {
 		return itembankDao.findOne(id);
+	}
+	
+	
+	public List<Itembankkind> gogetAllItembankkind() {
+		//Sort s =  new Sort(Sort.Direction.DESC, "id");
+		Sort s =  new Sort(Sort.Direction.ASC, "id");
+		return itembankkindDao.findAll(s);		
+	}
+	
+	public List<Itembanklevel> gogetAllItembanklevel() {
+		//Sort s =  new Sort(Sort.Direction.DESC, "id");
+		Sort s =  new Sort(Sort.Direction.ASC, "id");
+		return itembanklevelDao.findAll(s);		
+	}
+	
+	
+	public List<Itembankrange> gogetAllItembankrange() {
+		//Sort s =  new Sort(Sort.Direction.DESC, "id");
+		Sort s =  new Sort(Sort.Direction.ASC, "id");
+		return itembankrangeDao.findAll(s);		
 	}
 
 	public void saveItembank(Itembank entity) {
@@ -119,6 +148,37 @@ public class ItembankService {
 		this.itembankDao = itembankDao;
 	}
 
+
+	public ItembankkindDao getItembankkindDao() {
+		return itembankkindDao;
+	}
+
+	@Autowired
+	public void setItembankkindDao(ItembankkindDao itembankkindDao) {
+		this.itembankkindDao = itembankkindDao;
+	}
+
+
+	public ItembankrangeDao getItembankrangeDao() {
+		return itembankrangeDao;
+	}
+	@Autowired
+	public void setItembankrangeDao(ItembankrangeDao itembankrangeDao) {
+		this.itembankrangeDao = itembankrangeDao;
+	}
+
+
+	public ItembanklevelDao getItembanklevelDao() {
+		return itembanklevelDao;
+	}
+
+	@Autowired
+	public void setItembanklevelDao(ItembanklevelDao itembanklevelDao) {
+		this.itembanklevelDao = itembanklevelDao;
+	}
+
+	
+	
 	
 
 }
