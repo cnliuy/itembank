@@ -130,11 +130,28 @@ public class ItembankService {
 		System.out.println("role:"+ u.getRoles());
 		System.out.println("--in gogetItembankList（）  itemclassify:"+ itemclassify);
 		//itemclassify= itemclassify.substring(1);
-		if ( (itemclassify== null || "".equals(itemclassify))     ){
-			
-		}
-		return itembankDao.findByItemclassifyOrderByIdDesc(itemclassify);
 		
+		List <Itembank> ibl ;
+		if (("全部".equals(itemclassify))&&("全部".equals(itemrange1))&&("全部".equals(itemrange2)) ){
+			ibl = itembankDao.findByUserId(userid);			
+		}else if(("全部".equals(itemclassify))&&("全部".equals(itemrange1))){
+			ibl = itembankDao.findByUserIdAndItemrange2(userid , itemrange2);		
+		}else if(("全部".equals(itemclassify))&&("全部".equals(itemrange2))){		
+			ibl = itembankDao.findByUserIdAndItemrange1(userid , itemrange1);	
+		}else if(("全部".equals(itemrange1))&&("全部".equals(itemrange2))){
+			ibl = itembankDao.findByUserIdAndItemclassify(userid , itemclassify);
+		}else if("全部".equals(itemrange1)){
+			ibl = itembankDao.findByUserIdAndItemclassifyAndItemrange2(userid , itemclassify,itemrange2);
+		}else if("全部".equals(itemrange2)){
+			ibl = itembankDao.findByUserIdAndItemrange1AndItemclassify(userid , itemrange1, itemclassify);
+		}else if("全部".equals(itemclassify)){
+			ibl = itembankDao.findByUserIdAndItemrange1AndItemrange2(userid , itemrange1, itemrange2);
+		}else{
+			ibl = itembankDao.findByUserIdAndItemrange1AndItemrange2AndItemclassify(userid , itemrange1, itemrange2,itemclassify);
+		}
+		
+		//return itembankDao.findByItemclassifyOrderByIdDesc(itemclassify);
+		return ibl ;
 	}
 	
 

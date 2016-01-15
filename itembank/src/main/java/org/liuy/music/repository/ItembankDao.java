@@ -20,7 +20,16 @@ public interface ItembankDao extends PagingAndSortingRepository<Itembank, Long> 
 	Page <Itembank> findByUserIdOrderByIdDesc  (Long userId, Pageable pageRequest);
 	
 	List <Itembank> findByItemclassifyOrderByIdDesc (String itemclassify) ;
-
+	
+	List <Itembank> findByUserId(Long userId);
+	List <Itembank> findByUserIdAndItemrange1(Long userId ,String itemrange1);
+	List <Itembank> findByUserIdAndItemclassify(Long userId ,String itemclassify);
+	List <Itembank> findByUserIdAndItemrange2(Long userId ,String itemrange2);
+	List <Itembank> findByUserIdAndItemrange1AndItemrange2(Long userId ,String itemrange1,String itemrange2);
+	List <Itembank>	findByUserIdAndItemclassifyAndItemrange2(Long userId , String itemclassify,String itemrange2);
+	List <Itembank> findByUserIdAndItemrange1AndItemclassify(Long userId ,String itemrange1,String itemclassify);
+	List <Itembank> findByUserIdAndItemrange2AndItemclassify(Long userId ,String itemrange2,String itemclassify);
+	List <Itembank> findByUserIdAndItemrange1AndItemrange2AndItemclassify(Long userId ,String itemrange1,String itemrange2,String itemclassify);
 	//@Modifying
 	//@Query("delete from Task task where task.user.id=?1")
 	//void deleteByUserId(Long id);
