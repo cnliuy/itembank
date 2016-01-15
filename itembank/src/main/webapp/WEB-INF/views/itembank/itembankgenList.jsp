@@ -17,11 +17,18 @@
                 $.getJSON("${ctx}/itembankrest/gogetitembankkinds",function(data){
                     var $jsontip = $("#itemclassifyoption");
                     var strHtml = "<select class=\"input-large required\" name=\"itemclassify\" id=\"itemclassify\">	";
-                    strHtml += "<option  selected=\"selected\"  value =\"${itemclassify}\">${itemclassify}</option>" ;                    
+                    <c:if test="${not empty itemclassify}">
+                    strHtml += "<option  selected=\"selected\"  value =\"${itemclassify}\">${itemclassify}</option>" ;   
+                    strHtml += "<option  value =\"全部\">全部</option>" ;  
+                    </c:if>
+                    <c:if test="${empty itemclassify}">
+                    strHtml += "<option  selected=\"selected\"  value =\"全部\">全部</option>" ;  
+                    </c:if>
                     //alert(data);
                     $jsontip.empty();
                     $.each(data,function(infoIndex,info){
-                    	//alert(infoIndex);                  
+                    	//alert(infoIndex); 
+                    	
                     	//if(infoIndex == 0){
                     	//	strHtml += "<option  selected=\"selected\">"+info["title"]+"</option>";                    		
                     	//}else{
@@ -42,6 +49,14 @@
                     var strHtml2 = "<select class=\"input-large required\" name=\"itemrange1\" id=\"itemrange1\">";
                     strHtml2 += "<option  selected=\"selected\"  value =\"${itemrange1}\">${itemrange1}</option>" ;    
                     //alert(data);
+                    <c:if test="${not empty itemrange1}">
+                    strHtml2 += "<option  selected=\"selected\"  value =\"${itemrange1}\">${itemrange1}</option>" ;   
+                    strHtml2 += "<option  value =\"全部\">全部</option>" ;  
+                    </c:if>
+                    <c:if test="${empty itemrange1}">
+                    strHtml2 += "<option  selected=\"selected\"  value =\"全部\">全部</option>" ;  
+                    </c:if>
+                    
                     $jsontip2.empty();
                     $.each(data2,function(infoIndex,info){
                     	//alert(infoIndex);                  
@@ -69,6 +84,15 @@
                 var strHtml3 = "<select class=\"input-large required\" name=\"itemrange2\" id=\"itemrange2\">";
                 strHtml3 += "<option  selected=\"selected\" value =\"${itemrange2}\">${itemrange2}</option>" ;   
                 //alert(data);
+                <c:if test="${not empty itemrange2}">
+                strHtml3 += "<option  selected=\"selected\"  value =\"${itemrange2}\">${itemrange2}</option>" ;   
+                strHtml3 += "<option  value =\"全部\">全部</option>" ;  
+                </c:if>
+                <c:if test="${empty itemrange2}">
+                strHtml3 += "<option  selected=\"selected\"  value =\"全部\">全部</option>" ;  
+                </c:if>
+                
+                
                 $jsontip3.empty();
                 $.each(data3,function(infoIndex,info){
                 	//alert(infoIndex);                  

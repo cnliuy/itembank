@@ -161,8 +161,9 @@ public class ItembankController {
 		model.addAttribute("itemclassify", itemclassify);
 		model.addAttribute("itemnum", itemnum);
 		
-		//出现怪异字符 需要删除 第一个？字符  上面使用 .substring(1);处理
-		//-----------------?音的性质--------?简易-----------?填空题
+		//出现怪异字符 需要删除 第一个？字符  上面使用 .substring(1);------处理前
+		// <option value = 加入value属性 不存在这个 ?的问题了    ------处理后
+		//----------------- 音的性质-------- 简易----------- 填空题
 		System.out.println("------------"+itemnum+"-----"+itemrange1+"--------"+itemrange2+"-----------"+itemclassify );
 		
 		// 需要调整  liuy
