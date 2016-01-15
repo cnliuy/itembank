@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,11 +17,13 @@ import org.liuy.music.entity.Itembankkind;
 import org.liuy.music.entity.Itembanklevel;
 import org.liuy.music.entity.Itembankrange;
 import org.liuy.music.entity.Task;
+import org.liuy.music.entity.User;
 import org.liuy.music.repository.ItembankDao;
 import org.liuy.music.repository.ItembankkindDao;
 import org.liuy.music.repository.ItembanklevelDao;
 import org.liuy.music.repository.ItembankrangeDao;
 import org.liuy.music.repository.TaskDao;
+import org.liuy.music.repository.UserDao;
 import org.springside.modules.persistence.DynamicSpecifications;
 import org.springside.modules.persistence.SearchFilter;
 import org.springside.modules.persistence.SearchFilter.Operator;
@@ -30,7 +31,7 @@ import org.springside.modules.persistence.SearchFilter.Operator;
 @Component
 @Transactional
 public class ItembankService {
-
+	private UserDao userDao;
 	private ItembankDao itembankDao;	
 	private ItembankkindDao itembankkindDao;
 	private ItembankrangeDao itembankrangeDao;
@@ -114,6 +115,28 @@ public class ItembankService {
 	    return ibs;
 		
 	}
+	
+	
+	/**
+	 * 得到所需的 Itembank 列表
+	 * 	itemrange1
+	 * 	itemclassify
+	 * 	itemrange2
+	 * 
+	 * 
+	 * */
+	public   List<Itembank> gogetItembankList( Long userid  ,String itemclassify , String itemrange1 , String itemrange2 ) {
+		User u = userDao.findOne(userid) ;
+		System.out.println("role:"+ u.getRoles());
+		System.out.println("--in gogetItembankList（）  itemclassify:"+ itemclassify);
+		//itemclassify= itemclassify.substring(1);
+		if ( (itemclassify== null || "".equals(itemclassify))     ){
+			
+		}
+		return itembankDao.findByItemclassifyOrderByIdDesc(itemclassify);
+		
+	}
+	
 
 	/**
 	 * 创建分页请求.
@@ -175,6 +198,16 @@ public class ItembankService {
 	@Autowired
 	public void setItembanklevelDao(ItembanklevelDao itembanklevelDao) {
 		this.itembanklevelDao = itembanklevelDao;
+	}
+
+
+	public UserDao getUserDao() {
+		return userDao;
+	}
+
+	@Autowired
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
 	}
 
 	

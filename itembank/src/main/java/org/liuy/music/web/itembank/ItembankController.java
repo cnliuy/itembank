@@ -183,6 +183,16 @@ public class ItembankController {
 		}else{
 			//正常
 			//查找题目，随机生成题目列表
+			//itemrange1
+			//itemclassify
+			//itemrange2
+			List<Itembank> ibs =itembankService.gogetItembankList(getCurrentUserId(), itemclassify, itemrange1, itemrange2);
+			Iterator ibsi = ibs.iterator() ;
+			System.out.println( "----------------") ;
+			while(ibsi.hasNext()){
+				Itembank i = (Itembank)ibsi.next();
+				System.out.println( i.getId()) ;
+			}
 			System.out.println("生成的题目数："+iitemnum);
 		}
 		

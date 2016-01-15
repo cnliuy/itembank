@@ -6,6 +6,9 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+
+import java.util.List;
+
 import org.liuy.music.entity.Itembank;
 import org.liuy.music.entity.Task;
 
@@ -15,6 +18,8 @@ public interface ItembankDao extends PagingAndSortingRepository<Itembank, Long> 
 	
 	
 	Page <Itembank> findByUserIdOrderByIdDesc  (Long userId, Pageable pageRequest);
+	
+	List <Itembank> findByItemclassifyOrderByIdDesc (String itemclassify) ;
 
 	//@Modifying
 	//@Query("delete from Task task where task.user.id=?1")

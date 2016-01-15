@@ -38,16 +38,20 @@
                     $.each(data,function(infoIndex,info){
                     	//alert(infoIndex);                  
                     	if(infoIndex == 0){
-                    		strHtml += "<option  selected=\"selected\">"+info["title"]+"</option>";                    		
+                    		//strHtml += "<option  selected=\"selected\">"+info["title"]+"</option>";
+                    		var stt = info["title"];
+                    		strHtml += "<option  selected=\"selected\" value =\""+stt+"\">"+stt+"</option>";         		
                     	}else{
-                    		strHtml += "<option>"+ info["title"]+"</option>";
+                    		//strHtml += "<option>"+ info["title"]+"</option>";                    		
+                     		var stt = info["title"];
+                    		strHtml += "<option value =\""+stt+"\">"+stt+"</option>";
                             //strHtml += "id:"+info["id"]+"<br>";
                             //strHtml += "<br>";
                             //strHtml += "<hr>"
                     	} 
                     })
                     strHtml += "</select>" ;
-                    alert(strHtml); 
+                    //alert(strHtml); 
                     $jsontip.html(strHtml); 
 
                 })
@@ -61,9 +65,13 @@
                     $.each(data2,function(infoIndex,info){
                     	//alert(infoIndex);                  
                     	if(infoIndex == 0){
-                    		strHtml2 += "<option  selected=\"selected\">"+info["title"]+"</option>";                    		
+                    		//strHtml2 += "<option  selected=\"selected\">"+info["title"]+"</option>";   
+                    		var stt = info["title"];
+                    		strHtml2 += "<option  selected=\"selected\" value =\""+stt+"\">"+stt+"</option>"; 
                     	}else{
-                    		strHtml2 += "<option>"+info["title"]+"</option>";
+                    		//strHtml2 += "<option>"+info["title"]+"</option>";
+                    		var stt = info["title"];
+                    		strHtml2 += "<option value =\""+stt+"\">"+stt+"</option>";
                             //strHtml += "id:"+info["id"]+"<br>";
                             //strHtml += "<br>";
                             //strHtml += "<hr>"
@@ -85,9 +93,13 @@
                 $.each(data3,function(infoIndex,info){
                 	//alert(infoIndex);                  
                 	if(infoIndex == 0){
-                		strHtml3 += "<option  selected=\"selected\">"+info["title"]+"</option>";                    		
+                		//strHtml3 += "<option  selected=\"selected\">"+info["title"]+"</option>";    
+                		var stt = info["title"];
+                		strHtml3 += "<option  selected=\"selected\" value =\""+stt+"\">"+stt+"</option>"; 
                 	}else{
-                		strHtml3 += "<option>"+info["title"]+"</option>";
+                		//strHtml3 += "<option>"+info["title"]+"</option>";
+                		var stt = info["title"];
+                		strHtml3 += "<option value =\""+stt+"\">"+stt+"</option>";
                 	} 
                 })
                 strHtml3 += "</select>" ;

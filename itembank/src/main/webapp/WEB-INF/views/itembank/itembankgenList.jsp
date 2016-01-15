@@ -17,7 +17,7 @@
                 $.getJSON("${ctx}/itembankrest/gogetitembankkinds",function(data){
                     var $jsontip = $("#itemclassifyoption");
                     var strHtml = "<select class=\"input-large required\" name=\"itemclassify\" id=\"itemclassify\">	";
-                    strHtml += "<option  selected=\"selected\">${itemclassify}</option>" ;                    
+                    strHtml += "<option  selected=\"selected\"  value =\"${itemclassify}\">${itemclassify}</option>" ;                    
                     //alert(data);
                     $jsontip.empty();
                     $.each(data,function(infoIndex,info){
@@ -25,7 +25,8 @@
                     	//if(infoIndex == 0){
                     	//	strHtml += "<option  selected=\"selected\">"+info["title"]+"</option>";                    		
                     	//}else{
-                    		strHtml += "<option>"+info["title"]+"</option>";
+                    		var stt = info["title"];
+                    		strHtml += "<option value =\""+stt+"\">"+stt+"</option>";
                     		 //alert("--"+info["title"]); 
                     	//} 
                     })
@@ -39,7 +40,7 @@
               $.getJSON("${ctx}/itembankrest/gogetitembankranges",function(data2){
                     var $jsontip2 = $("#itemrange1option");
                     var strHtml2 = "<select class=\"input-large required\" name=\"itemrange1\" id=\"itemrange1\">";
-                    strHtml2 += "<option  selected=\"selected\">${itemrange1}</option>" ;    
+                    strHtml2 += "<option  selected=\"selected\"  value =\"${itemrange1}\">${itemrange1}</option>" ;    
                     //alert(data);
                     $jsontip2.empty();
                     $.each(data2,function(infoIndex,info){
@@ -47,7 +48,9 @@
                     	//if(infoIndex == 0){
                     		//strHtml2 += "<option  selected=\"selected\">"+info["title"]+"</option>";                    		
                     	//}else{
-                    		strHtml2 += "<option>"+info["title"]+"</option>";
+                    		//strHtml2 += "<option>"+info["title"]+"</option>";
+                    		var stt = info["title"];
+                    		strHtml2 += "<option value =\""+stt+"\">"+stt+"</option>";
                             //strHtml += "id:"+info["id"]+"<br>";
                             //strHtml += "<br>";
                             //strHtml += "<hr>"
@@ -64,7 +67,7 @@
             $.getJSON("${ctx}/itembankrest/gogetitembanklevel",function(data3){
                 var $jsontip3 = $("#itemrange2option");
                 var strHtml3 = "<select class=\"input-large required\" name=\"itemrange2\" id=\"itemrange2\">";
-                strHtml3 += "<option  selected=\"selected\">${itemrange2}</option>" ;   
+                strHtml3 += "<option  selected=\"selected\" value =\"${itemrange2}\">${itemrange2}</option>" ;   
                 //alert(data);
                 $jsontip3.empty();
                 $.each(data3,function(infoIndex,info){
@@ -72,7 +75,9 @@
                 	//if(infoIndex == 0){
                 	//	strHtml3 += "<option  selected=\"selected\">"+info["title"]+"</option>";                    		
                 	//}else{
-                		strHtml3 += "<option>"+info["title"]+"</option>";
+                		//strHtml3 += "<option>"+info["title"]+"</option>";
+                		var stt = info["title"];
+                		strHtml3 += "<option value =\""+stt+"\">"+stt+"</option>";
                 	//} 
                 })
                 strHtml3 += "</select>" ;
