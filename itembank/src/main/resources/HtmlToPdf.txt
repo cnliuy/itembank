@@ -1,0 +1,5 @@
+E:\html转pdf\installfile\wkhtmltopdf\bin\wkhtmltopdf.exe  http://localhost:8080/itembank/static/temphtml/f17b17c3-e219-4b85-be64-c1e1723e3593.html  E:\html转pdf\pdffile\1.pdf
+
+
+参考 ：
+	http://blog.csdn.net/accountwcx/article/details/46785437
