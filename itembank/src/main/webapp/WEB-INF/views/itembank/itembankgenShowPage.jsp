@@ -37,9 +37,9 @@
 	
 	</table>
 	<br>
-	<div><a href="${ctx}/itembank/#">生成pdf文件</a></div>
+	<div><a href="${ctx}/itembank/#">生成pdf文件</a></div>&nbsp;<br>
 
-	
+	<div><a href="${ctx}/itembank">返回题目列表</a></div>
 
 </body>
 </html>

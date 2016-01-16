@@ -182,8 +182,12 @@
 	
 	<c:if test="${not empty filename}">
 		<div><a href="${ctx}/static/temphtml/${filename}" target="_blank"  class="btn">生成HTML文件</a></div>
-		
+		&nbsp;<br>
 		<div><a href="${ctx}/itembank/genPdfFile?pdfFilename=${filename}" target="_blank" class="btn">生成PDF文件</a></div>
+		
+		&nbsp;<br>
+
+	<div><a href="${ctx}/itembank">返回题目列表</a></div>
 		
 	</c:if>
 	

@@ -314,8 +314,8 @@
 				<input id="cancel_btn" class="btn" type="button" value="返回" onclick="history.back()"/>
 		</div>
 		
-	</form>
-	
+	</form><br>
+	<div><a href="${ctx}/itembank">返回题目列表</a></div>
 	
 </body>
 </html>

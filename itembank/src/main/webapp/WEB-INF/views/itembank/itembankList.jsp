@@ -53,8 +53,9 @@
 	-->
 	<br>
 	&nbsp;
-	<div><a href="${ctx}/itembank/tocreateitembankpage"  class="btn" >创建题目</a></div> <br>
-	<div><a href="${ctx}/itembank">题目列表</a></div>
-	<div><a href="${ctx}/itembank/tocreateitembankListpage">随机生成题目列表</a></div>
+	<div><a href="${ctx}/itembank/tocreateitembankpage"  class="btn" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;创建题目&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></div> &nbsp;<br>
+	<div><a href="${ctx}/itembank/tocreateitembankListpage" class="btn" >按需随机生成题目</a></div> &nbsp;
+	<div><a href="${ctx}/itembank">返回题目列表</a></div>
+	
 </body>
 </html>
