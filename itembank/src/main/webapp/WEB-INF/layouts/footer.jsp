@@ -1,5 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8" %>
 <div id="footer">
-	Copyright &copy; 2015 liuy
+	 天津音乐学院   Copyright &copy; 2015
 </div>
 
