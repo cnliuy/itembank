@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.apache.shiro.SecurityUtils;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,7 @@ import org.liuy.music.service.task.TaskService;
 import org.liuy.music.tools.CheckString;
 import org.liuy.music.tools.CreateRandomNumList;
 import org.liuy.music.tools.HtmlToPdf;
+import org.liuy.music.tools.JacksonUtil;
 import org.springside.modules.web.Servlets;
 import org.webbitserver.handler.StaticFile;
 
@@ -193,7 +195,7 @@ public class ItembankController {
 			Iterator ibsi = ibs.iterator() ;
 			int listlength=ibs.size();
 			
-			System.out.println("要生成的题目数："+iitemnum);
+			System.out.println("用户要生成的题目数："+iitemnum);
 			
 			if(listlength == 0 || ibs == null){
 				model.addAttribute("message", "题目生成出现错误");
@@ -206,14 +208,25 @@ public class ItembankController {
 					System.out.println( i.getId()+" : = "+aa[ii]) ;
 					ii++;				
 				}
-				Long [] b  =CreateRandomNumList.GetRandomNum2(aa, 500) ;
+				
+				Long [] b=CreateRandomNumList.GetRandomNum2(aa, 500) ;
 				System.out.println("--------------新的排列Id如下：");
+				for (int oo = 0 ; oo < b.length ; oo++){
+					System.out.print(b[oo]+" ");
+				}
 				
 				List<Itembank> newibs = new ArrayList<Itembank>();
 				Itembank newitembank ;
 				System.out.println("--------------实际生产的题目数 ： "+listlength);
+				int maxnum = 0 ;
+				if(iitemnum < listlength){
+					maxnum =iitemnum;
+				}else{
+					maxnum = listlength;
+				}
+				
 				//for(int  j =0 ; j<iitemnum ;j++){
-				for(int  j =0 ; j<listlength ;j++){
+				for(int  j =0 ; j<maxnum ;j++){
 					
 					System.out.print(b[j]+" ");
 					newitembank = itembankService.getItembank(b[j]) ;
@@ -326,6 +339,24 @@ public class ItembankController {
 //		taskService.saveTask(newTask);
 //		return "redirect:/task/";
 //	}
+	
+	/**
+	 * 根据范围和数目 生成题目列表
+	 *  参考
+	 *  http://www.tuicool.com/articles/UjaeUj 
+	 *  Spring mvc 接收页面表单List 
+	 * */
+	@RequestMapping(value = "gogetGenItemList" )
+	public String gogetGenItemList(ItemidModel itemidModel ) {	
+		String s= JacksonUtil.toJSon(itemidModel);	 //接收表单List 内容
+		
+		System.out.println("--------------s："+s);	 
+		
+		
+		
+		
+		return "itembank/itembankgenList";
+	}
 	
 	
 	/**

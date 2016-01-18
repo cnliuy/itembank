@@ -183,10 +183,28 @@
 	<c:if test="${not empty filename}">
 		<div><a href="${ctx}/static/temphtml/${filename}" target="_blank"  class="btn">生成HTML文件</a></div>
 		&nbsp;<br>
-		<div><a href="${ctx}/itembank/genPdfFile?pdfFilename=${filename}" target="_blank" class="btn">生成PDF文件</a></div>
-		
+		<div><a href="${ctx}/itembank/genPdfFile?pdfFilename=${filename}" target="_blank" class="btn">&nbsp;生成PDF文件&nbsp;</a></div>		
 		&nbsp;<br>
-
+		
+		
+		
+		<form id="inputForm2" action="${ctx}/itembank/gogetGenItemList" method="post" class="form-horizontal">
+			<c:forEach items="${itembanks}" var="itembank"  varStatus="status">				
+				<input type="hidden" id="itemid[${status.index}]" name="itemid[${status.index}]"  value="${itembank.id}"  />				
+			</c:forEach>
+			<div>
+				<input id="submit_btn" class="btn btn-primary" type="submit" value="&nbsp;编辑生成内容&nbsp;"/>&nbsp;	
+				<!--  
+				<a href="${ctx}/itembank/genPdfFile?pdfFilename=${filename}" target="_blank" class="btn">&nbsp;编辑生成内容&nbsp;</a> 
+				-->
+			</div>
+			
+		</form>
+		&nbsp;<br>
+		
+		
+		
+		
 	<div><a href="${ctx}/itembank">返回题目列表</a></div>
 		
 	</c:if>
