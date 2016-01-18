@@ -189,10 +189,11 @@ public class ItembankController {
 			//itemclassify
 			//itemrange2
 			List<Itembank> ibs =itembankService.gogetItembankList(getCurrentUserId(), itemclassify, itemrange1, itemrange2);
+			//int realnum = ibs.size() ;
 			Iterator ibsi = ibs.iterator() ;
 			int listlength=ibs.size();
 			
-			System.out.println("生成的题目数："+iitemnum);
+			System.out.println("要生成的题目数："+iitemnum);
 			
 			if(listlength == 0 || ibs == null){
 				model.addAttribute("message", "题目生成出现错误");
@@ -210,7 +211,10 @@ public class ItembankController {
 				
 				List<Itembank> newibs = new ArrayList<Itembank>();
 				Itembank newitembank ;
-				for(int  j =0 ; j<iitemnum ;j++){
+				System.out.println("--------------实际生产的题目数 ： "+listlength);
+				//for(int  j =0 ; j<iitemnum ;j++){
+				for(int  j =0 ; j<listlength ;j++){
+					
 					System.out.print(b[j]+" ");
 					newitembank = itembankService.getItembank(b[j]) ;
 					newibs.add(newitembank);
