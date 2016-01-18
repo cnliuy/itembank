@@ -347,15 +347,28 @@ public class ItembankController {
 	 *  Spring mvc 接收页面表单List 
 	 * */
 	@RequestMapping(value = "gogetGenItemList" )
-	public String gogetGenItemList(ItemidModel itemidModel ) {	
+	public String gogetGenItemList(ItemidModel itemidModel , Model model ) {	
 		String s= JacksonUtil.toJSon(itemidModel);	 //接收表单List 内容
+		List itrmids = itemidModel.getItemid() ;
 		
-		System.out.println("--------------s："+s);	 
+		Iterator  itrmidsi = itrmids.iterator();
+		System.out.println("--------------" );	
 		
+		List <Itembank> ibs = new ArrayList(); //需向其中添加内容 加肉
+		Long tmpId ;
+		Itembank tmpib ;
+		String contents = "" ;
+		while(itrmidsi.hasNext()){
+			tmpId  = Long.valueOf((String)(itrmidsi.next())) ;
+			tmpib = itembankService.getItembank(tmpId) ;
+			ibs.add(tmpib);	
+			contents=contents+tmpib.getContent()+"<br>";
+				
+		} 
 		
+		model.addAttribute("contents", contents);	
 		
-		
-		return "itembank/itembankgenList";
+		return "itembank/itemsCreate";
 	}
 	
 	
