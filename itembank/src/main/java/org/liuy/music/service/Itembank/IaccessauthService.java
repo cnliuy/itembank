@@ -149,6 +149,48 @@ public class IaccessauthService {
 		return rr;
 	}
 	
+	 /**
+	  * items
+	  * 判断用户的删除权限
+	  * 
+	  * */
+	public ReturnResponse checkItemsUserDel(Long CurrentUserId ,Items  items) {
+		ReturnResponse  rr = new ReturnResponse();
+		Long itemsIdl = items.getId() ;
+		rr = checkItemsUserDel(CurrentUserId , itemsIdl) ;		 
+		return rr;
+	}
+	
+	 /**
+	  * items
+	  * 判断用户的删除权限
+	  * 
+	  * */
+	public ReturnResponse checkItemsUserDel(Long CurrentUserId ,Long itemsId) {
+		Integer retCode = rCanNotDo; 
+		String retInfo ="鉴权失败" ;
+		ReturnResponse  rr = new ReturnResponse();
+		Items  ib = itemsDao.findById(itemsId);
+		if( ib == null){
+			rr.setRetCode(rBeNull);
+			rr.setRetInfo("查不到相关信息");	
+		}else{
+			long ouserId = ib.getUserId().longValue();  //得到属主的id值
+			long cuserId = CurrentUserId.longValue() ;
+			if (cuserId == ouserId){
+				rr.setRetCode(rCanDo);
+				rr.setRetInfo("删除成功");	
+			}else{
+				//可以做更进一步的鉴权
+				rr.setRetCode(rCanNotDo);
+				rr.setRetInfo("鉴权失败,无权删除数据");					
+			}
+		}
+
+		return rr;
+	}
+	
+	
 	
 	 /**
 	  * items
@@ -193,6 +235,9 @@ public class IaccessauthService {
 
 		return rr;
 	}
+	
+	
+
 
 	public ItembankDao getItembankDao() {
 		return itembankDao;

@@ -125,7 +125,55 @@ public class ItemsController {
 		itemsService.saveItems(items);	
 		return "redirect:/items/";
 	}
-	 
+	
+	
+	/**
+	 * 更新内容 
+	 * 
+	 *  ---修改需鉴权
+	 * 
+	 * */
+	@RequestMapping("/updateitemscontent")
+    public String updateitemscontent(HttpServletRequest request,  HttpServletResponse response , Model model ,RedirectAttributes redirectAttributes) {
+		//System.out.println("in  itembankController() postuecontent");
+		//String uecontent =	(String) request.getAttribute("uepostcontent");   
+		//System.out.println("uecontent:"+uecontent); //空值
+		String uecontent = request.getParameter("uepostcontent");
+		String title = request.getParameter("title");	
+		String itemsid = request.getParameter("itemsid");	
+		 
+		System.out.println("title:"+title);		
+		Long userId = getCurrentUserId();
+		
+		Items items = null;
+		if(itemsid == null || "".equals(itemsid)) {
+			//model.addAttribute("message", "不存在此题目");
+			redirectAttributes.addFlashAttribute("message", "不存在此题目");
+		}else{
+			try {
+				Long itemsIdl= Long.parseLong(itemsid); 
+				items = itemsService.getItems(itemsIdl);			 
+				Long CurrentUserId = getCurrentUserId();
+				ReturnResponse rr = iaccessauthService.checkItemsUserUpdate(CurrentUserId, itemsIdl);
+				
+				int retCode = rr.getRetCode() ;
+				String retInfo  =rr.getRetInfo();
+				if(retCode == IaccessauthService.rCanDo){
+					items.setContents(uecontent);
+					items.setTitle(title);
+					//items.setUserId(CurrentUserId);  -- 不能要  注意					
+				 	itemsService.saveItems(items);				
+				}
+				redirectAttributes.addFlashAttribute("message", retInfo);
+			} catch (Exception e) {			
+				redirectAttributes.addFlashAttribute("message", "参数错误，String到Long转化失败");		
+			}
+			
+		}
+		return "redirect:/items/";
+	}
+	
+	
 	
 	 
 	@RequestMapping(method = RequestMethod.GET)
@@ -141,7 +189,7 @@ public class ItemsController {
 		return "items/itemsList";
 	}
 	
-
+	
 	
 	
 	/**
@@ -175,31 +223,37 @@ public class ItemsController {
 	}
 	
 	
-	
-	
-	
-	
-
-	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)
-	public String updateForm(@PathVariable("id") Long id, Model model) {
-		model.addAttribute("task", taskService.getTask(id));
-		model.addAttribute("action", "update");
-		return "task/taskForm";
-	}
-
-	@RequestMapping(value = "update", method = RequestMethod.POST)
-	public String update(@Valid @ModelAttribute("task") Task task, RedirectAttributes redirectAttributes) {
-		taskService.saveTask(task);
-		redirectAttributes.addFlashAttribute("message", "更新任务成功");
-		return "redirect:/task/";
-	}
-
+	/**
+	 * 题目删除
+	 * 
+	 * ---删除鉴权
+	 * 
+	 * 
+	 * */
 	@RequestMapping(value = "delete/{id}")
-	public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
-		taskService.deleteTask(id);
-		redirectAttributes.addFlashAttribute("message", "删除任务成功");
-		return "redirect:/task/";
+	public String delete(@PathVariable("id") Long itemsid,  Model model ,RedirectAttributes redirectAttributes) {
+		
+		Items items =  null ;
+		items = itemsService.getItems(itemsid)  ; 
+		if(items == null ){			
+			redirectAttributes.addFlashAttribute("message", "空");
+		}else{
+			Long CurrentUserId = getCurrentUserId();			 
+			ReturnResponse rr =  iaccessauthService.checkItemsUserDel(CurrentUserId, items);
+			if (rr.getRetCode() ==  iaccessauthService.rCanDo){
+				//权限够 可删除
+				itemsService.deleteItems(itemsid);				
+			} 
+			redirectAttributes.addFlashAttribute("message",rr.getRetInfo());
+			
+		}
+		return "redirect:/items/";
 	}
+	
+	
+	
+
+
 
 	
 	/**

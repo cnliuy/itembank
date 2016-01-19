@@ -119,7 +119,8 @@
     	<script id="editor" type="text/plain" style="width:1024px;height:180px;">${items.contents}</script>
 	</div>
 	<c:if test="${not empty items}">
-	<form action="${ctx}/items/createitemscontent"	method="post"  > 
+	<form action="${ctx}/items/updateitemscontent"	method="post"  >
+		<input type="hidden" id="itemsid"  name="itemsid" value="${items.id}"/>	 
 		<input type="hidden" id="uepostcontent"  name="uepostcontent" value=""/>		
 		<br></br>		
 		<div class="control-group">
