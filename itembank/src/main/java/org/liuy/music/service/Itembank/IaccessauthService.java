@@ -1,8 +1,10 @@
 package org.liuy.music.service.Itembank;
 
 import org.liuy.music.entity.Itembank;
+import org.liuy.music.entity.Items;
 import org.liuy.music.entity.ReturnResponse;
 import org.liuy.music.repository.ItembankDao;
+import org.liuy.music.repository.ItemsDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +23,7 @@ public class IaccessauthService {
 	public static final  int rBeNull = 0 ;
 	
 	private ItembankDao itembankDao;
-	
+	private ItemsDao itemsDao;
 	
 	 /**
 	  * 判断用户的读权限
@@ -146,6 +148,51 @@ public class IaccessauthService {
 
 		return rr;
 	}
+	
+	
+	 /**
+	  * items
+	  * 
+	  * 判断items的
+	  * 用户的更新权限
+	  * 
+	  * */
+	public ReturnResponse checkItemsUserUpdate(Long CurrentUserId ,Items  items) {
+		ReturnResponse  rr = new ReturnResponse();		 
+		Long itemsIdl = items.getId() ;
+		rr = checkItemsUserUpdate(CurrentUserId , itemsIdl) ;  
+		return rr;
+	}
+	
+	 /**
+	  * 
+	  * items
+	  * 判断用户的更新权限
+	  * 
+	  * */
+	public ReturnResponse checkItemsUserUpdate(Long CurrentUserId ,Long  itemsId) {
+		Integer retCode = rCanNotDo; 
+		String retInfo ="鉴权失败" ;
+		ReturnResponse  rr = new ReturnResponse();
+		Items  ib = itemsDao.findById(itemsId);
+		if( ib == null){
+			rr.setRetCode(rBeNull);
+			rr.setRetInfo("查不到相关信息");	
+		}else{
+			long ouserId = ib.getUserId().longValue();  //得到属主的id值
+			long cuserId = CurrentUserId.longValue() ;
+			if (cuserId == ouserId){
+				rr.setRetCode(rCanDo);
+				rr.setRetInfo("更新成功");	
+			}else{
+				//可以做更进一步的鉴权
+				rr.setRetCode(rCanNotDo);
+				rr.setRetInfo("无权更新数据");					
+			}
+		}
+
+		return rr;
+	}
 
 	public ItembankDao getItembankDao() {
 		return itembankDao;
@@ -153,6 +200,16 @@ public class IaccessauthService {
 	@Autowired
 	public void setItembankDao(ItembankDao itembankDao) {
 		this.itembankDao = itembankDao;
+	}
+
+
+	public ItemsDao getItemsDao() {
+		return itemsDao;
+	}
+
+	@Autowired
+	public void setItemsDao(ItemsDao itemsDao) {
+		this.itemsDao = itemsDao;
 	}
 	
 	

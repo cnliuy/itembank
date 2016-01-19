@@ -109,20 +109,23 @@
         alert("已清空草稿箱")
     }
 </script>
- 
+ 	<c:if test="${not empty message}">
+		<div id="message" class="alert alert-success"><button data-dismiss="alert" class="close">×</button>${message}</div>
+	</c:if>
 	 
-	<c:if test="${not empty contents}">
+
 	<div>
     	<!-- <h1>完整demo</h1> -->
-    	<script id="editor" type="text/plain" style="width:1024px;height:180px;">${contents}</script>
+    	<script id="editor" type="text/plain" style="width:1024px;height:180px;">${items.contents}</script>
 	</div>
-	<form action="${ctx}/itembank/updatepostuecontent"	method="post"  > 
+	<c:if test="${not empty items}">
+	<form action="${ctx}/items/createitemscontent"	method="post"  > 
 		<input type="hidden" id="uepostcontent"  name="uepostcontent" value=""/>		
 		<br></br>		
 		<div class="control-group">
 			<label for="task_title" class="control-label">标注（以此标识内容）:</label>
 			<div class="controls">			
-				<input type="text" id="title"  name="title" value=""/>	
+				<input type="text" id="title"  name="title" value="${items.title}"/>	
 			</div>
 		</div>
 	 	<div class="form-actions">

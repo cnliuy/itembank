@@ -345,6 +345,10 @@ public class ItembankController {
 	 *  参考
 	 *  http://www.tuicool.com/articles/UjaeUj 
 	 *  Spring mvc 接收页面表单List 
+	 *  
+	 *  为结构清晰 移到 ItemsControll中了 ，方法名没有变化
+	 *  
+	 *  @deprecated
 	 * */
 	@RequestMapping(value = "gogetGenItemList" )
 	public String gogetGenItemList(ItemidModel itemidModel , Model model ) {	
@@ -368,7 +372,7 @@ public class ItembankController {
 		
 		model.addAttribute("contents", contents);	
 		
-		return "itembank/itemsCreate";
+		return "itembank/itemsCreate";//会报错  页面已经移除 
 	}
 	
 	

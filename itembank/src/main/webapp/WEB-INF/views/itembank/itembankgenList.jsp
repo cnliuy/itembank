@@ -188,7 +188,7 @@
 		
 		
 		
-		<form id="inputForm2" action="${ctx}/itembank/gogetGenItemList" method="post" class="form-horizontal">
+		<form id="inputForm2" action="${ctx}/items/gogetGenItemList" method="post" class="form-horizontal">
 			<c:forEach items="${itembanks}" var="itembank"  varStatus="status">				
 				<input type="hidden" id="itemid[${status.index}]" name="itemid[${status.index}]"  value="${itembank.id}"  />				
 			</c:forEach>
