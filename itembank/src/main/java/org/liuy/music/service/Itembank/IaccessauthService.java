@@ -237,7 +237,33 @@ public class IaccessauthService {
 	}
 	
 	
+	 /**
+	  * 判断用户的读权限
+	  * items
+	  * */
+	public ReturnResponse checkItemsUserRead(Long CurrentUserId ,Long  itemsId ) {
+		Integer retCode = rCanNotDo; 
+		String retInfo ="鉴权失败" ;
+		ReturnResponse  rr = new ReturnResponse();
+		Items  ib = itemsDao.findById(itemsId);
+		if( ib == null){
+			rr.setRetCode(rBeNull);
+			rr.setRetInfo("查不到相关题目");	
+		}else{			
+			long ouserId = ib.getUserId().longValue();  //得到属主的id值			
+			long cuserId = CurrentUserId.longValue() ;
+			if (cuserId == ouserId){
+				rr.setRetCode(rCanDo);
+				rr.setRetInfo("请阅读题目");//成功
+			}else{
+				//可以做更进一步的鉴权
+				rr.setRetCode(rCanNotDo);
+				rr.setRetInfo("无权读取数据");					
+			}
+		}
 
+		return rr;
+	}
 
 	public ItembankDao getItembankDao() {
 		return itembankDao;

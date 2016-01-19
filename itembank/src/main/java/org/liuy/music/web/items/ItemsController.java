@@ -77,6 +77,8 @@ public class ItemsController {
 	
 	@Autowired
 	private IaccessauthService iaccessauthService;
+	
+	
 	/**
 	 * 根据范围和数目 生成题目列表
 	 *  参考
@@ -251,10 +253,35 @@ public class ItemsController {
 	}
 	
 	
+	/**
+	 * 单个题目查看
+	 * 
+	 * ---查看需鉴权
+	 * 
+	 * 
+	 * */
+	@RequestMapping(value = "/showdetail/{id}" , method = RequestMethod.GET) 
+	public String showdetail(@PathVariable("id") Long itemsid, Model model) {
+		Items items =  null ;
+		items = itemsService.getItems(itemsid)  ; 
+		if(items == null ){
+			model.addAttribute("message", "空");
+		}else{
+			Long CurrentUserId = getCurrentUserId();
+			Long itemsId =  items.getId() ;
+			ReturnResponse rr = iaccessauthService.checkItemsUserRead(CurrentUserId, itemsId);
+			int retCode = rr.getRetCode() ;
+			String retInfo  =rr.getRetInfo();
+			if(retCode == IaccessauthService.rCanDo){
+				model.addAttribute("items", items);			
+			}else{
+				model.addAttribute("message", retInfo);	
+			}
+		}
+		
+	    return "items/itemsDetail";  
+	}
 	
-
-
-
 	
 	/**
 	 * 取出Shiro中的当前用户Id.
