@@ -5,7 +5,7 @@
 
 <html>
 <head>
-	<title>题目生成</title>
+	<title>随机题目结果生成 ~</title>
 </head>
 
 <body>
@@ -193,7 +193,7 @@
 				<input type="hidden" id="itemid[${status.index}]" name="itemid[${status.index}]"  value="${itembank.id}"  />				
 			</c:forEach>
 			<div>
-				<input id="submit_btn" class="btn btn-primary" type="submit" value="&nbsp;编辑生成内容&nbsp;"/>&nbsp;	
+				<input id="submit_btn" class="btn btn-primary" type="submit" value="&nbsp;编辑或保存生成内容&nbsp;"/>&nbsp;	
 				<!--  
 				<a href="${ctx}/itembank/genPdfFile?pdfFilename=${filename}" target="_blank" class="btn">&nbsp;编辑生成内容&nbsp;</a> 
 				-->

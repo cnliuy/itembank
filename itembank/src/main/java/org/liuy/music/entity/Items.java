@@ -18,11 +18,19 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * */
 @Entity
 @Table(name="ibitems")
+/**
+ * @param
+ * 	needfile --- 1  exist 文件了;  0  没有文件 ，需要写入
+ * 
+ * */
 public class Items extends IdEntity {
 
 	private String title;
 	private String contents; 
 	private Long  userId;
+	
+	private int  needfile;  // 1  exist 文件了;  0  没有文件 ，需要写入
+	private String   filename; 
 	 
 	public String getTitle() {
 		return title;
@@ -49,6 +57,25 @@ public class Items extends IdEntity {
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+	
+	
+	
+
+	public int getNeedfile() {
+		return needfile;
+	}
+
+	public void setNeedfile(int needfile) {
+		this.needfile = needfile;
+	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
 	@Override
