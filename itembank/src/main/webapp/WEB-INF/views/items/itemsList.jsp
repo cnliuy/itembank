@@ -39,8 +39,8 @@
 				<td><a href="${ctx}/items/delete/${item.id}" style="color:red;" 
 	                    	onclick="javascript:return del_sure()" >删除</a></td>
 				<td><a href="${ctx}/items/toupdate/${item.id}">修改</a></td>
-				<td><a href="${ctx}/items/togenhtml/${item.id}">生成Html</a></td>
-				<td><a href="${ctx}/items/togenpdf/${item.id}">生成PDF</a></td>
+				<td><a href="${ctx}/items/togenhtml/${item.id}"  target="_blank">生成Html</a></td>
+				<td><a href="${ctx}/items/togenpdf/${item.id}"   target="_blank">生成PDF</a></td>
 			</tr>
 		</c:forEach>
 		</tbody>
